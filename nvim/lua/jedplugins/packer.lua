@@ -32,11 +32,20 @@ return require('packer').startup(function(use)
     end,
   }
   use {
-  'nvim-tree/nvim-tree.lua',
-  requires = {
-    'nvim-tree/nvim-web-devicons', -- optional
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', -- optional
+    }
   }
-}
+  use {
+    'mrded/nvim-lsp-notify',
+    requires = { 'rcarriga/nvim-notify' },
+    config = function()
+      require('lsp-notify').setup({
+        notify = require('notify'),
+      })
+    end
+  }
 
   -- Git
   use { 'tpope/vim-fugitive' }
@@ -50,6 +59,7 @@ return require('packer').startup(function(use)
   use { 'windwp/nvim-autopairs' }
   use { 'windwp/nvim-ts-autotag' }
   use { 'mbbill/undotree' }
+  use { 'weilbith/nvim-code-action-menu'}
 
 
   -- LSP

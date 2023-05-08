@@ -1,10 +1,9 @@
-local lsp = require('lsp-zero')
+local lspzero = require('lsp-zero')
 
-lsp.preset('recommended')
+lspzero.preset('recommended')
 
-lsp.ensure_installed({
+lspzero.ensure_installed({
   'tsserver',
-  'eslint',
   'lua_ls',
   'rust_analyzer',
   'angularls',
@@ -14,18 +13,18 @@ lsp.ensure_installed({
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
+local cmp_mappings = lspzero.defaults.cmp_mappings({
   ['<C-j>'] = cmp.mapping.select_next_item(cmp_select),
   ['<C-k>'] = cmp.mapping.select_prev_item(cmp_select),
   ['<CR>'] = cmp.mapping.confirm({ select = true }),
   ['<C-Space>'] = cmp.mapping.complete(),
 })
 
-lsp.setup_nvim_cmp({
+lspzero.setup_nvim_cmp({
   mapping = cmp_mappings
 })
 
-lsp.on_attach(function(client, bufnr)
+lspzero.on_attach(function(client, bufnr)
   local opts = { buffer = bufnr, remap = false, silent = true }
 
   vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
@@ -33,13 +32,52 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
   vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
   vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
-
   vim.keymap.set('n', '<space>e', function() vim.diagnostic.open_float() end, opts)
-
 end)
+
+lspzero.format_mapping('<Space>f', {
+  format_opts = {
+    async = false,
+    timeout_ms = 10000
+  },
+  servers = {
+    ['null-ls'] = { 'javascript', 'typescript', 'lua', 'html', 'css', 'scss', 'json' }
+  }
+})
+lspzero.setup()
+
+-- Setup cmp kind after lspzero
+cmp.setup({
+  formatting = {
+    fields = { 'menu', 'abbr', 'kind' },
+    format = require('lspkind').cmp_format({
+      mode = 'symbol_text',
+      maxwidth = 50,
+      ellipsis_char = '...',
+      menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[LuaSnip]",
+        nvim_lua = "[Lua]",
+        latex_symbols = "[Latex]",
+      })
+    })
+  }
+})
+
+local null_ls = require('null-ls')
+local null_opts = lspzero.build_options('null-ls', {})
+
+null_ls.setup({
+  on_attach = function(client, bufnr)
+    null_opts.on_attach(client, bufnr)
+  end,
+  sources = {
+    null_ls.builtins.formatting.prettier_d_slim,
+    null_ls.builtins.formatting.stylua
+  }
+})
 
 vim.diagnostic.config({
   virtual_text = false
-});
-
-lsp.setup()
+})

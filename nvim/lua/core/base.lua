@@ -27,3 +27,4 @@ vim.opt.splitright = true
 
 vim.opt.scrolloff = 10
 vim.opt.cmdheight = 1
+vim.opt.mouse = ''

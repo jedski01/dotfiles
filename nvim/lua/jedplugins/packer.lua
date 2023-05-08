@@ -37,15 +37,9 @@ return require('packer').startup(function(use)
       'nvim-tree/nvim-web-devicons', -- optional
     }
   }
-  use {
-    'mrded/nvim-lsp-notify',
-    requires = { 'rcarriga/nvim-notify' },
-    config = function()
-      require('lsp-notify').setup({
-        notify = require('notify'),
-      })
-    end
-  }
+
+  use { 'rcarriga/nvim-notify' }
+  use { 'j-hui/fidget.nvim' }
 
   -- Git
   use { 'tpope/vim-fugitive' }
@@ -63,6 +57,8 @@ return require('packer').startup(function(use)
 
 
   -- LSP
+  use { 'onsails/lspkind.nvim' }
+  use { 'jose-elias-alvarez/null-ls.nvim' }
   use {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v2.x',

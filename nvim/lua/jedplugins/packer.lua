@@ -8,10 +8,18 @@ return require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim', tag = '0.1.1',
     requires = { {'nvim-lua/plenary.nvim'} }
   }
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+  use {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+  }
 
   -- THEME/GUI
   use { 'navarasu/onedark.nvim' }
+  use { 'lukas-reineke/indent-blankline.nvim' }
+  use {
+    'akinsho/bufferline.nvim', tag = "*",
+    requires = 'nvim-tree/nvim-web-devicons'
+  }
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons' }
@@ -23,7 +31,6 @@ return require('packer').startup(function(use)
       ts_update()
     end,
   }
-  use { 'lukas-reineke/indent-blankline.nvim' }
   use {
   'nvim-tree/nvim-tree.lua',
   requires = {
@@ -43,5 +50,28 @@ return require('packer').startup(function(use)
   use { 'windwp/nvim-autopairs' }
   use { 'windwp/nvim-ts-autotag' }
   use { 'mbbill/undotree' }
+
+
+  -- LSP
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
+    requires = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},             -- Required
+      {                                      -- Optional
+      'williamboman/mason.nvim',
+      run = function()
+        pcall(vim.cmd, 'MasonUpdate')
+      end,
+    },
+    {'williamboman/mason-lspconfig.nvim'}, -- Optional
+
+    -- Autocompletion
+    {'hrsh7th/nvim-cmp'},     -- Required
+    {'hrsh7th/cmp-nvim-lsp'}, -- Required
+    {'L3MON4D3/LuaSnip'},     -- Required
+  }
+}
 
 end)

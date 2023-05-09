@@ -5,7 +5,7 @@ require('onedark').setup {
   term_colors = true,
   colors = {
     fg = '#e8e8e8',
-    dark_purplse = '#cf5fc4'
+    dark_purple = '#cf5fc4'
   },
   highlights = {
     TelescopePromptBorder = { bg='$diff_text', fg='$diff_text' },

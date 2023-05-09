@@ -1,5 +1,3 @@
-local color = require('onedark.palette')
-
 require('bufferline').setup({
   options = {
     diagnostics = 'nvim_lsp',

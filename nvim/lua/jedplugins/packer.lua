@@ -14,6 +14,8 @@ return require('packer').startup(function(use)
   }
 
   -- THEME/GUI
+  use { 'rcarriga/nvim-notify' }
+  use { 'j-hui/fidget.nvim' }
   use { 'navarasu/onedark.nvim' }
   use { 'lukas-reineke/indent-blankline.nvim' }
   use {
@@ -37,9 +39,14 @@ return require('packer').startup(function(use)
       'nvim-tree/nvim-web-devicons', -- optional
     }
   }
-
-  use { 'rcarriga/nvim-notify' }
-  use { 'j-hui/fidget.nvim' }
+  use {
+    "utilyre/barbecue.nvim",
+    tag = "*",
+    requires = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    }
+  }
 
   -- Git
   use { 'tpope/vim-fugitive' }

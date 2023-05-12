@@ -61,6 +61,7 @@ return require('packer').startup(function(use)
   use { 'windwp/nvim-ts-autotag' }
   use { 'mbbill/undotree' }
   use { 'weilbith/nvim-code-action-menu'}
+  use { 'chentoast/marks.nvim' }
 
 
   -- LSP

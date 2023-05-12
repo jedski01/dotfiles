@@ -9,9 +9,8 @@ vim.opt.expandtab = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = 'yes:2'
 vim.opt.wrap = false
-vim.opt.signcolumn = 'yes'
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true

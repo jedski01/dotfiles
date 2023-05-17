@@ -8,7 +8,8 @@ lspzero.ensure_installed({
   'rust_analyzer',
   'angularls',
   'cssls',
-  'html'
+  'html',
+  'eslint'
 })
 
 local cmp = require('cmp')

@@ -1,5 +1,3 @@
-local DEBUGGER_PATH = vim.fn.stdpath "data" .. "/site/pack/packer/opt/vscode-js-debug"
-
 require('dap-vscode-js').setup({
   debugger_path = vim.fn.stdpath('data') .. '/mason/packages/js-debug-adapter',
   debugger_cmd = { 'js-debug-adapter' },

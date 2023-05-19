@@ -1,4 +1,4 @@
-local notify = require('notify')
-notify.setup();
+local notify = require("notify")
+notify.setup()
 
-vim.notify = notify;
+vim.notify = notify

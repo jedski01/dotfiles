@@ -1,26 +1,25 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
-
 
 local plugins = {
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.1",
-		dependencies = { { "nvim-lua/plenary.nvim" } }
+		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
-		run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+		build = "make",
 	},
 
 	-- THEME/GUI
@@ -38,7 +37,7 @@ local plugins = {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-		run = function()
+		build = function()
 			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
 			ts_update()
 		end,
@@ -50,13 +49,13 @@ local plugins = {
 		},
 	},
 	{
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    }
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons", -- optional dependency
+		},
 	},
 
 	-- Git
@@ -85,7 +84,7 @@ local plugins = {
 			{ "neovim/nvim-lspconfig" }, -- Required
 			{ -- Optional
 				"williamboman/mason.nvim",
-				run = function()
+				build = function()
 					pcall(vim.cmd, "MasonUpdate")
 				end,
 			},
@@ -98,11 +97,11 @@ local plugins = {
 		},
 	},
 
-  -- Debugging
-  { 'mfussenegger/nvim-dap' },
-  { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap"} },
-  -- Nodejs
-  { "mxsdev/nvim-dap-vscode-js", dependencies = {"mfussenegger/nvim-dap"} },
+	-- Debugging
+	{ "mfussenegger/nvim-dap" },
+	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
+	-- Nodejs
+	{ "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },
 }
-local opts = {};
-require('lazy').setup(plugins, opts);
+local opts = {}
+require("lazy").setup(plugins, opts)

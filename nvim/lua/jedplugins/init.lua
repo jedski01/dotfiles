@@ -1,4 +1,5 @@
-require('jedplugins.packer')
+-- require('jedplugins.packer')
+require('jedplugins.lazy')
 require('jedplugins.telescope')
 require('jedplugins.onedark')
 require('jedplugins.treesitter')

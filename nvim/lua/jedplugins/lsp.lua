@@ -51,6 +51,9 @@ lspzero.setup()
 
 -- Setup cmp kind after lspzero
 cmp.setup({
+  confirmation = {
+    completeopt = { 'menu,menuone,noinsert' }
+  },
   formatting = {
     fields = { 'menu', 'abbr', 'kind' },
     format = require('lspkind').cmp_format({

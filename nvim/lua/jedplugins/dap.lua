@@ -13,15 +13,28 @@ local silentopts = { noremap = true, silent = true }
 -- keybindings
 vim.api.nvim_set_keymap("n", "<F8>", "<cmd> lua require('dap').continue()<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<F7>", "<cmd> lua require('dap').toggle_breakpoint()<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<F19>", "<cmd> lua require('dap').clear_breakpoints()<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<F10>", "<cmd> lua require('dap').step_over()<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<F11>", "<cmd> lua require('dap').step_into()<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<S-F11>", "<cmd> lua require('dap').step_out()<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<F11>", "<cmd> lua require('dap').step_into()<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<F23>", "<cmd> lua require('dap').step_out()<CR>", silentopts)
+vim.api.nvim_set_keymap(
+	"n",
+	"<F12>",
+	"<cmd> lua require('dap').disconnect()<CR><cmd>lua require('dap').close()<CR>",
+	silentopts
+)
+vim.api.nvim_set_keymap("n", "<F5>", "<cmd> lua require('dapui').toggle()<CR>", silentopts)
 
 -- Automaticlly open dap ui when dap starts
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
 end
+-- Automaticlly close dap ui when dap terminated
 dap.listeners.before.event_terminated["dapui_config"] = function()
+	dapui.close()
+end
+dap.listeners.before.disconnect["dapui_config"] = function()
 	dapui.close()
 end
 dap.listeners.before.event_exited["dapui_config"] = function()

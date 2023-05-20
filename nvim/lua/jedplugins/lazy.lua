@@ -21,12 +21,13 @@ local plugins = {
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = "make",
 	},
+  "nvim-telescope/telescope-dap.nvim",
 
 	-- THEME/GUI
-	{ "rcarriga/nvim-notify" },
-	{ "j-hui/fidget.nvim" },
-	{ "navarasu/onedark.nvim" },
-	{ "lukas-reineke/indent-blankline.nvim" },
+	"rcarriga/nvim-notify",
+	"j-hui/fidget.nvim",
+	"navarasu/onedark.nvim",
+	"lukas-reineke/indent-blankline.nvim",
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -59,23 +60,23 @@ local plugins = {
 	},
 
 	-- Git
-	{ "tpope/vim-fugitive" },
-	{ "lewis6991/gitsigns.nvim" },
+	"tpope/vim-fugitive",
+	"lewis6991/gitsigns.nvim",
 
 	-- QoL
-	{ "phaazon/hop.nvim", branch = "v2" },
-	{ "terrortylor/nvim-comment" },
-	{ "kylechui/nvim-surround" },
-	{ "roxma/vim-tmux-clipboard" },
-	{ "windwp/nvim-autopairs" },
-	{ "windwp/nvim-ts-autotag" },
-	{ "mbbill/undotree" },
-	{ "weilbith/nvim-code-action-menu" },
-	{ "chentoast/marks.nvim" },
+  { "phaazon/hop.nvim", branch = "v2" },
+	"terrortylor/nvim-comment",
+	"kylechui/nvim-surround",
+	"roxma/vim-tmux-clipboard",
+	"windwp/nvim-autopairs",
+	"windwp/nvim-ts-autotag",
+	"mbbill/undotree",
+	"weilbith/nvim-code-action-menu",
+	"chentoast/marks.nvim",
 
 	-- LSP
-	{ "onsails/lspkind.nvim" },
-	{ "jose-elias-alvarez/null-ls.nvim" },
+	"onsails/lspkind.nvim",
+	"jose-elias-alvarez/null-ls.nvim",
 	{
 		"VonHeikemen/lsp-zero.nvim",
 		branch = "v2.x",
@@ -97,8 +98,10 @@ local plugins = {
 		},
 	},
 
+  -- DAP
+  "jay-babu/mason-nvim-dap.nvim",
 	-- Debugging
-	{ "mfussenegger/nvim-dap" },
+	"mfussenegger/nvim-dap",
 	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
 	-- Nodejs
 	{ "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },

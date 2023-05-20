@@ -32,14 +32,25 @@ require("telescope").setup({
 })
 
 require("telescope").load_extension("fzf")
+require("telescope").load_extension("dap")
 
 -- KEY BINDINGS
 local builtin = require("telescope.builtin")
 local silentopts = { noremap = true, silent = true }
 
-vim.keymap.set("n", "<leader>fr", builtin.lsp_references, silentopts)
+vim.keymap.set(
+	"n",
+	"<leader>fr",
+	'<cmd> lua require("telescope.builtin").lsp_references({ show_line = false })<CR>',
+	silentopts
+)
 vim.keymap.set("n", "<leader>g", builtin.live_grep, silentopts)
-vim.keymap.set("n", "<leader>ff", builtin.find_files, silentopts)
+vim.keymap.set(
+	"n",
+	"<leader>ff",
+	'<cmd> lua require("telescope.builtin").find_files({ file_ignore_patterns = { "node_modules" } })<CR>',
+	silentopts
+)
 vim.keymap.set("n", "<leader>fp", builtin.git_files, silentopts)
 vim.keymap.set(
 	"n",

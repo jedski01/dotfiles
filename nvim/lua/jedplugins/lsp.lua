@@ -3,14 +3,20 @@ local lspzero = require("lsp-zero")
 lspzero.preset("recommended")
 
 lspzero.ensure_installed({
+	-- WEBDEV
 	"tsserver",
-	"lua_ls",
-	"rust_analyzer",
 	"angularls",
 	"cssls",
 	"html",
 	"eslint",
-	-- DAP
+	-- LUA
+	"lua_ls",
+	-- RUST
+	"rust_analyzer",
+	-- Make
+	"cmake",
+  -- C/C++
+  "clangd"
 })
 
 local cmp = require("cmp")
@@ -44,10 +50,15 @@ lspzero.format_mapping("<Space>f", {
 		timeout_ms = 10000,
 	},
 	servers = {
-		["null-ls"] = { "javascript", "typescript", "lua", "html", "css", "scss", "json" },
+		["null-ls"] = { "javascript", "typescript", "lua", "html", "css", "scss", "json", "c" },
 	},
 })
 lspzero.setup()
+
+-- Override capabilities for clangd to fix offset encoding warning
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.offsetEncoding = { "utf-16" }
+require("lspconfig").clangd.setup({ capabilities = capabilities })
 
 -- Setup cmp kind after lspzero
 cmp.setup({
@@ -79,8 +90,10 @@ null_ls.setup({
 		null_opts.on_attach(client, bufnr)
 	end,
 	sources = {
+    -- formatters
 		null_ls.builtins.formatting.prettier_d_slim,
 		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.clang_format
 	},
 })
 

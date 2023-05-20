@@ -1,7 +1,7 @@
 require("dap-vscode-js").setup({
 	debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
 	debugger_cmd = { "js-debug-adapter" },
-	adapters = { "pwa-node" },
+	adapters = { "pwa-node", "pwa-chrome", "pwa-extensionHost" },
 })
 
 for _, language in ipairs({ "typescript", "javascript" }) do
@@ -22,7 +22,8 @@ for _, language in ipairs({ "typescript", "javascript" }) do
 			request = "attach",
 			name = "Attach",
 			processId = require("dap.utils").pick_process,
-			cwd = "${workspaceFolder}",
-		},
+			rootPath = "${workspaceFolder}",
+			skipFiles = { "<node_internals>/**" },
+		}
 	}
 end

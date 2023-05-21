@@ -5,7 +5,7 @@ local dap = require("dap")
 dap.adapters.cppdbg = {
 	id = "cppdbg",
 	type = "executable",
-	command = "/home/jed/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
+	command = "OpenDebugAD7",
 	options = {
 		detached = false,
 	},
@@ -20,11 +20,14 @@ dap.configurations.c = {
 		miDebuggerServerAddress = function()
 			return vim.fn.input("Remote GDB Server: ")
 		end,
+    miDebuggerArgs = function()
+      return vim.fn.input('Extra args: ')
+    end,
 		minDebuggerPath = "usr/bin/gdb",
 		cwd = "${workspaceFolder}",
-		program = function()
-			return vim.fn.input("Program: ")
-		end,
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    end,
 	},
 }
 

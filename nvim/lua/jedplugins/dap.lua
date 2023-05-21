@@ -1,10 +1,31 @@
 require("mason-nvim-dap").setup({
-	ensure_installed = { "cppdbg", "js-debug-adapter", "python" },
+	ensure_installed = { "cppdbg" },
 })
 
 local dapui = require("dapui")
 
-dapui.setup()
+dapui.setup({
+	layouts = {
+		{
+			elements = {
+				{ id = "scopes", size = 0.33 },
+				{ id = "breakpoints", size = 0.17 },
+				{ id = "stacks", size = 0.25 },
+				{ id = "watches", size = 0.25 },
+			},
+			size = 0.33,
+			position = "right",
+		},
+		{
+			elements = {
+				{ id = "repl", size = 0.45 },
+				{ id = "console", size = 0.55 },
+			},
+			size = 0.27,
+			position = "bottom",
+		},
+	},
+})
 
 -- key mappings
 local dap = require("dap")

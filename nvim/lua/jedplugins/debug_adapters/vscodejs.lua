@@ -1,3 +1,5 @@
+-- this is WIP
+
 require("dap-vscode-js").setup({
 	debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter",
 	debugger_cmd = { "js-debug-adapter" },

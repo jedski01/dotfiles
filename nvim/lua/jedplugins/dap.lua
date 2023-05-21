@@ -16,11 +16,10 @@ vim.api.nvim_set_keymap("n", "<F7>", "<cmd> lua require('dap').toggle_breakpoint
 vim.api.nvim_set_keymap("n", "<F19>", "<cmd> lua require('dap').clear_breakpoints()<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<F10>", "<cmd> lua require('dap').step_over()<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<F11>", "<cmd> lua require('dap').step_into()<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<F11>", "<cmd> lua require('dap').step_into()<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<F23>", "<cmd> lua require('dap').step_out()<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<F12>", "<cmd> lua require('dap').step_out()<CR>", silentopts)
 vim.api.nvim_set_keymap(
 	"n",
-	"<F12>",
+	"<F20>",
 	"<cmd> lua require('dap').disconnect()<CR><cmd>lua require('dap').close()<CR>",
 	silentopts
 )

@@ -13,8 +13,6 @@ lspzero.ensure_installed({
 	"lua_ls",
 	-- RUST
 	"rust_analyzer",
-	-- Make
-	"cmake",
   -- C/C++
   "clangd"
 })

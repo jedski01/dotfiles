@@ -27,3 +27,6 @@ vim.opt.splitright = true
 vim.opt.scrolloff = 10
 vim.opt.cmdheight = 1
 vim.opt.mouse = ""
+
+vim.cmd("match ExtraWhitespace /\\s\\+\\%#\\@<!$/")
+vim.cmd("hi ExtraWhitespace ctermbg=red guibg=red")

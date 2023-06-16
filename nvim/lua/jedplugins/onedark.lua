@@ -35,3 +35,5 @@ vim.api.nvim_set_hl(0, "CursorLineNr", { fg = color.warmer.orange })
 vim.api.nvim_set_hl(0, "FidgetTask", { bg = color.warmer.bg0, fg = "#e8e8e8" })
 vim.api.nvim_set_hl(0, "FidgetTitle", { bg = color.warmer.bg0, fg = color.warmer.orange })
 vim.api.nvim_set_hl(0, "MarkSignHL", { fg = color.warmer.blue })
+
+vim.api.nvim_set_hl(0, "ExtraWhitespace", { bg = color.warmer.red, fg = color.warmer.red })

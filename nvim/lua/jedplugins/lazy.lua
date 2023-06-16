@@ -21,7 +21,7 @@ local plugins = {
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = "make",
 	},
-  "nvim-telescope/telescope-dap.nvim",
+	"nvim-telescope/telescope-dap.nvim",
 
 	-- THEME/GUI
 	"rcarriga/nvim-notify",
@@ -64,7 +64,8 @@ local plugins = {
 	"lewis6991/gitsigns.nvim",
 
 	-- QoL
-  { "phaazon/hop.nvim", branch = "v2" },
+	"ntpeters/vim-better-whitespace",
+	{ "phaazon/hop.nvim", branch = "v2" },
 	"terrortylor/nvim-comment",
 	"kylechui/nvim-surround",
 	"roxma/vim-tmux-clipboard",
@@ -98,8 +99,8 @@ local plugins = {
 		},
 	},
 
-  -- DAP
-  "jay-babu/mason-nvim-dap.nvim",
+	-- DAP
+	"jay-babu/mason-nvim-dap.nvim",
 	-- Debugging
 	"mfussenegger/nvim-dap",
 	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },

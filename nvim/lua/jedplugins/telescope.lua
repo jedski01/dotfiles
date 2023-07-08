@@ -2,7 +2,7 @@ local actions = require("telescope.actions")
 
 require("telescope").setup({
 	defaults = {
-		file_ignore_patterns = { "node_modules" },
+		file_ignore_patterns = { "node%_modules/.*" },
 		sorting_strategy = "ascending",
 		prompt_prefix = "  ",
 		selection_caret = "󰄾 ",
@@ -33,9 +33,11 @@ require("telescope").setup({
 
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("dap")
+require("telescope").load_extension("live_grep_args")
 
 -- KEY BINDINGS
 local builtin = require("telescope.builtin")
+local extensions = require("telescope").extensions
 local silentopts = { noremap = true, silent = true }
 
 vim.keymap.set(
@@ -44,7 +46,7 @@ vim.keymap.set(
 	'<cmd> lua require("telescope.builtin").lsp_references({ show_line = false })<CR>',
 	silentopts
 )
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, silentopts)
+vim.keymap.set("n", "<leader>fg", extensions.live_grep_args.live_grep_args, silentopts)
 vim.keymap.set(
 	"n",
 	"<leader>ff",

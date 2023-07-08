@@ -44,12 +44,17 @@ vim.keymap.set(
 	'<cmd> lua require("telescope.builtin").lsp_references({ show_line = false })<CR>',
 	silentopts
 )
-vim.keymap.set("n", "<leader>g", builtin.live_grep, silentopts)
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, silentopts)
 vim.keymap.set(
 	"n",
 	"<leader>ff",
 	'<cmd> lua require("telescope.builtin").find_files({ file_ignore_patterns = { "node_modules" } })<CR>',
 	silentopts
+)
+vim.keymap.set(
+	"n",
+	"<leader>fw",
+	'<cmd> lua require("telescope.builtin").find_files({ file_ignore_patterns = { "node_modules"}, find_command = { "fd", "-t", "f", "-e", "ts", "-e", "html", "-e", "js", "-e", "scss", "-e", "css"  } })<CR>'
 )
 vim.keymap.set("n", "<leader>fp", builtin.git_files, silentopts)
 vim.keymap.set(
@@ -58,5 +63,5 @@ vim.keymap.set(
 	'<cmd> lua require("telescope.builtin").buffers{ layout_strategy = "center" }<CR>',
 	silentopts
 )
-vim.keymap.set("n", "<leader>fg", builtin.grep_string, silentopts)
+vim.keymap.set("n", "<leader>fs", builtin.grep_string, silentopts)
 vim.keymap.set("n", "<leader>d", builtin.diagnostics, silentopts)

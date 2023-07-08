@@ -28,6 +28,7 @@ vim.api.nvim_set_hl(0, "FloatBorder", { bg = color.warmer.bg0, fg = color.warmer
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = color.warmer.bg0 })
 vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = color.warmer.diff_text })
 vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = color.warmer.bg1 })
+vim.api.nvim_set_hl(0, "TelescopeResultsTitle", { fg = color.warmer.bg1, bg = color.warmer.bg1 })
 vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = color.warmer.bg1 })
 vim.api.nvim_set_hl(0, "TelescopePromptCounter", { fg = "#e8e8e8" })
 vim.api.nvim_set_hl(0, "CursorLine", { bg = color.warmer.bg3 })

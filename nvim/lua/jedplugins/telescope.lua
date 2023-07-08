@@ -2,11 +2,11 @@ local actions = require("telescope.actions")
 
 require("telescope").setup({
 	defaults = {
+    path_display = "truncate",
 		file_ignore_patterns = { "node%_modules/.*" },
 		sorting_strategy = "ascending",
 		prompt_prefix = "  ",
 		selection_caret = "󰄾 ",
-		results_title = "",
 		preview_title = "",
 		mappings = {
 			i = {
@@ -18,7 +18,15 @@ require("telescope").setup({
 		layout_config = {
 			horizontal = {
 				prompt_position = "top",
+        preview_width = .50
 			},
+      vertical = {
+        mirror = true,
+        prompt_position = "top",
+        width = 0.5,
+        height = 0.5
+      },
+      width = 0.7
 		},
 	},
 	extension = {
@@ -50,19 +58,19 @@ vim.keymap.set("n", "<leader>fg", extensions.live_grep_args.live_grep_args, sile
 vim.keymap.set(
 	"n",
 	"<leader>ff",
-	'<cmd> lua require("telescope.builtin").find_files({ file_ignore_patterns = { "node_modules" } })<CR>',
+	'<cmd> lua require("telescope.builtin").find_files({ hidden = true, previewer = false, file_ignore_patterns = { "node_modules" } })<CR>',
 	silentopts
 )
 vim.keymap.set(
 	"n",
 	"<leader>fw",
-	'<cmd> lua require("telescope.builtin").find_files({ file_ignore_patterns = { "node_modules"}, find_command = { "fd", "-t", "f", "-e", "ts", "-e", "html", "-e", "js", "-e", "scss", "-e", "css", "-e", "json" } })<CR>'
+	'<cmd> lua require("telescope.builtin").find_files({ previewer = false, prompt_title = "Web Dev Files", file_ignore_patterns = { "node_modules"}, find_command = { "fd", "-t", "f", "-e", "ts", "-e", "html", "-e", "js", "-e", "scss", "-e", "css", "-e", "json" } })<CR>'
 )
 vim.keymap.set("n", "<leader>fp", builtin.git_files, silentopts)
 vim.keymap.set(
 	"n",
 	"<leader>fb",
-	'<cmd> lua require("telescope.builtin").buffers{ layout_strategy = "center" }<CR>',
+	'<cmd> lua require("telescope.builtin").buffers{ layout_strategy = "vertical", previewer = false }<CR>',
 	silentopts
 )
 vim.keymap.set("n", "<leader>fs", builtin.grep_string, silentopts)

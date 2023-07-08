@@ -66,7 +66,7 @@ vim.keymap.set(
 	"<leader>fw",
 	'<cmd> lua require("telescope.builtin").find_files({ previewer = false, prompt_title = "Web Dev Files", file_ignore_patterns = { "node_modules"}, find_command = { "fd", "-t", "f", "-e", "ts", "-e", "html", "-e", "js", "-e", "scss", "-e", "css", "-e", "json" } })<CR>'
 )
-vim.keymap.set("n", "<leader>fp", builtin.git_files, silentopts)
+vim.keymap.set("n", "<leader>fp", '<cmd> lua require("telescope.builtin").git_files({ previewer = false })<CR>', silentopts)
 vim.keymap.set(
 	"n",
 	"<leader>fb",

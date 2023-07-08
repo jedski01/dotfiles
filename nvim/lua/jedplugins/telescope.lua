@@ -54,7 +54,7 @@ vim.keymap.set(
 vim.keymap.set(
 	"n",
 	"<leader>fw",
-	'<cmd> lua require("telescope.builtin").find_files({ file_ignore_patterns = { "node_modules"}, find_command = { "fd", "-t", "f", "-e", "ts", "-e", "html", "-e", "js", "-e", "scss", "-e", "css"  } })<CR>'
+	'<cmd> lua require("telescope.builtin").find_files({ file_ignore_patterns = { "node_modules"}, find_command = { "fd", "-t", "f", "-e", "ts", "-e", "html", "-e", "js", "-e", "scss", "-e", "css", "-e", "json" } })<CR>'
 )
 vim.keymap.set("n", "<leader>fp", builtin.git_files, silentopts)
 vim.keymap.set(

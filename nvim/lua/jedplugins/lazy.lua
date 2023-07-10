@@ -74,6 +74,7 @@ local plugins = {
 	"mbbill/undotree",
 	"weilbith/nvim-code-action-menu",
 	"chentoast/marks.nvim",
+  "softoika/ngswitcher.vim",
 
 	-- LSP
 	"onsails/lspkind.nvim",

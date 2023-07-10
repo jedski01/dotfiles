@@ -21,5 +21,6 @@ require("jedplugins.notify")
 require("jedplugins.fidget")
 require("jedplugins.barbecue")
 require("jedplugins.marks")
+require("jedplugins.ngswitcher")
 
 require("jedplugins.debug_adapters")

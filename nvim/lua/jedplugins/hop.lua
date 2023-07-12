@@ -1,22 +1,25 @@
-require("hop").setup()
+local hop = require("hop")
+
+hop.setup();
 local silentopts = { noremap = true, silent = true }
 
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader>w",
-	'<cmd>lua require"hop".hint_words({ direction = require"hop.hint".HintDirection.AFTER_CURSOR})<CR>',
-	silentopts
+  "n",
+  "<leader>hw",
+  '<cmd>lua require("hop").hint_words()<CR>',
+  silentopts
 )
+
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader>b",
-	'<cmd>lua require"hop".hint_words({ direction = require"hop.hint".HintDirection.BEFORE_CURSOR})<CR>',
-	silentopts
+  "n",
+  "<leader>hh",
+  '<cmd>lua require("hop").hint_words({ current_line_only = true})<CR>',
+  silentopts
 )
+
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader>l",
-	'<cmd>lua require"hop".hint_words({ direction = require"hop.hint".HintDirection.AFTER_CURSOR, current_line_only = true})<CR>',
-	silentopts
+  "n",
+  "<leader>hl",
+  '<cmd>lua require("hop").hint_lines()<CR>',
+  silentopts
 )
-vim.api.nvim_set_keymap("n", "<leader>h", ":HopPattern<CR>", silentopts)

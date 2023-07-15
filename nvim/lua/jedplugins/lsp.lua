@@ -67,8 +67,8 @@ capabilities.offsetEncoding = { "utf-16" }
 
 -- Setup cmp kind after lspzero
 cmp.setup({
-	confirmation = {
-		completeopt = { "menu,menuone,noinsert" },
+	completion = {
+		completeopt = "menu,menuone,noinsert",
 	},
 	formatting = {
 		fields = { "menu", "abbr", "kind" },

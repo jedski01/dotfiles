@@ -13,8 +13,8 @@ lspzero.ensure_installed({
 	"lua_ls",
 	-- RUST
 	"rust_analyzer",
-  -- C/C++
-  "clangd"
+	-- C/C++
+	"clangd",
 })
 
 local cmp = require("cmp")
@@ -28,7 +28,13 @@ local cmp_mappings = lspzero.defaults.cmp_mappings({
 
 lspzero.setup_nvim_cmp({
 	mapping = cmp_mappings,
+	sources = {
+		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
+	},
 })
+
+require("luasnip.loaders.from_vscode").lazy_load();
 
 lspzero.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false, silent = true }
@@ -56,7 +62,8 @@ lspzero.setup()
 -- Override capabilities for clangd to fix offset encoding warning
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.offsetEncoding = { "utf-16" }
-require("lspconfig").clangd.setup({ capabilities = capabilities })
+
+-- require("lspconfig").clangd.setup({ capabilities = capabilities })
 
 -- Setup cmp kind after lspzero
 cmp.setup({
@@ -67,7 +74,7 @@ cmp.setup({
 		fields = { "menu", "abbr", "kind" },
 		format = require("lspkind").cmp_format({
 			mode = "symbol_text",
-			maxwidth = 50,
+			maxwidth = 100,
 			ellipsis_char = "...",
 			menu = {
 				buffer = "[Buffer]",
@@ -88,10 +95,10 @@ null_ls.setup({
 		null_opts.on_attach(client, bufnr)
 	end,
 	sources = {
-    -- formatters
+		-- formatters
 		null_ls.builtins.formatting.prettier_d_slim,
 		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.clang_format
+		null_ls.builtins.formatting.clang_format,
 	},
 })
 

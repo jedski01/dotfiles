@@ -5,21 +5,21 @@ local silentopts = { noremap = true, silent = true }
 
 vim.api.nvim_set_keymap(
   "n",
-  "<leader>hw",
+  "<leader>we",
   '<cmd>lua require("hop").hint_words()<CR>',
   silentopts
 )
 
 vim.api.nvim_set_keymap(
   "n",
-  "<leader>hh",
+  "<leader>ww",
   '<cmd>lua require("hop").hint_words({ current_line_only = true})<CR>',
   silentopts
 )
 
 vim.api.nvim_set_keymap(
   "n",
-  "<leader>hl",
+  "<leader>wr",
   '<cmd>lua require("hop").hint_lines()<CR>',
   silentopts
 )

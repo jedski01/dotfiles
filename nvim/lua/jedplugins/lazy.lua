@@ -74,7 +74,8 @@ local plugins = {
 	"mbbill/undotree",
 	"weilbith/nvim-code-action-menu",
 	"chentoast/marks.nvim",
-  "softoika/ngswitcher.vim",
+	"softoika/ngswitcher.vim",
+	"jamestthompson3/sort-import.nvim",
 
 	-- LSP
 	"onsails/lspkind.nvim",
@@ -97,6 +98,8 @@ local plugins = {
 			{ "hrsh7th/nvim-cmp" }, -- Required
 			{ "hrsh7th/cmp-nvim-lsp" }, -- Required
 			{ "L3MON4D3/LuaSnip" }, -- Required
+			{ "saadparwaiz1/cmp_luasnip" },
+			{ "rafamadriz/friendly-snippets" },
 		},
 	},
 

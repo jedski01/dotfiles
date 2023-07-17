@@ -34,7 +34,25 @@ lspzero.setup_nvim_cmp({
 	},
 })
 
-require("luasnip.loaders.from_vscode").lazy_load();
+require("luasnip.loaders.from_vscode").lazy_load()
+
+local function organize_imports()
+	local params = {
+		command = "_typescript.organizeImports",
+	arguments = { vim.api.nvim_buf_get_name(0) },
+		title = "",
+	}
+	vim.lsp.buf.execute_command(params)
+end
+
+require("lspconfig").tsserver.setup({
+	commands = {
+		OrganizeImports = {
+			organize_imports,
+			description = "Organize imports",
+		},
+	},
+})
 
 lspzero.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false, silent = true }

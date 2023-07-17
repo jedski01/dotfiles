@@ -70,3 +70,7 @@ vim.api.nvim_set_keymap("n", "<C-h>", ":wincmd h<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-j>", ":wincmd j<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-k>", ":wincmd k<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-l>", ":wincmd l<CR>", silentopts)
+
+-- Organize Imports
+-- typescript
+vim.api.nvim_set_keymap("n", "<Space>oi", ":OrganizeImports<CR>", silentopts)

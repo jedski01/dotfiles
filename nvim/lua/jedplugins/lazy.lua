@@ -76,6 +76,7 @@ local plugins = {
 	"chentoast/marks.nvim",
 	"softoika/ngswitcher.vim",
 	"jamestthompson3/sort-import.nvim",
+  "mg979/vim-visual-multi",
 
 	-- LSP
 	"onsails/lspkind.nvim",

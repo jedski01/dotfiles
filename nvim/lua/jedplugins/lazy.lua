@@ -66,7 +66,8 @@ local plugins = {
 	-- QoL
 	"ntpeters/vim-better-whitespace",
 	{ "phaazon/hop.nvim", branch = "v2" },
-	"terrortylor/nvim-comment",
+	-- "terrortylor/nvim-comment",
+  "tpope/vim-commentary",
 	"kylechui/nvim-surround",
 	"roxma/vim-tmux-clipboard",
 	"windwp/nvim-autopairs",

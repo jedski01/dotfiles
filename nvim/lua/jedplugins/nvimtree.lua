@@ -9,6 +9,12 @@ require("nvim-tree").setup({
 	update_focused_file = {
 		enable = true,
 	},
+  tab = {
+    sync = {
+      open = true,
+      close = true
+    }
+  },
 	renderer = {
 		icons = {
 			glyphs = {

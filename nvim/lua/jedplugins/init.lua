@@ -22,7 +22,6 @@ require("jedplugins.fidget")
 require("jedplugins.barbecue")
 require("jedplugins.marks")
 require("jedplugins.ngswitcher")
-require("jedplugins.sort-import")
 require("jedplugins.luasnip")
 
 require("jedplugins.debug_adapters")

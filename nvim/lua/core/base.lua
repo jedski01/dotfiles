@@ -10,7 +10,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = "yes:3"
-vim.opt.wrap = false
+vim.opt.wrap = true
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true

@@ -23,5 +23,6 @@ require("jedplugins.barbecue")
 require("jedplugins.marks")
 require("jedplugins.ngswitcher")
 require("jedplugins.luasnip")
+require("jedplugins.typescript-tools")
 
 require("jedplugins.debug_adapters")

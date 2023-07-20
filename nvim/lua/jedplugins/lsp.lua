@@ -4,7 +4,7 @@ lspzero.preset("recommended")
 
 lspzero.ensure_installed({
 	-- WEBDEV
-	"tsserver",
+	-- "tsserver",
 	"angularls",
 	"cssls",
 	"html",
@@ -45,14 +45,14 @@ local function organize_imports()
 	vim.lsp.buf.execute_command(params)
 end
 
-require("lspconfig").tsserver.setup({
-	commands = {
-		OrganizeImports = {
-			organize_imports,
-			description = "Organize imports",
-		},
-	},
-})
+-- require("lspconfig").tsserver.setup({
+-- 	commands = {
+-- 		OrganizeImports = {
+-- 			organize_imports,
+-- 			description = "Organize imports",
+-- 		},
+-- 	},
+-- })
 
 lspzero.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false, silent = true }

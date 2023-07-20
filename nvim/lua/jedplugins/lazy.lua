@@ -81,6 +81,10 @@ local plugins = {
 	-- LSP
 	"onsails/lspkind.nvim",
 	"jose-elias-alvarez/null-ls.nvim",
+  {
+    "pmizio/typescript-tools.nvim",
+    requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}
+  },
 	{
 		"VonHeikemen/lsp-zero.nvim",
 		branch = "v2.x",

@@ -88,6 +88,10 @@ cmp.setup({
 	completion = {
 		completeopt = "menu,menuone,noinsert",
 	},
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
 	formatting = {
 		fields = { "menu", "abbr", "kind" },
 		format = require("lspkind").cmp_format({

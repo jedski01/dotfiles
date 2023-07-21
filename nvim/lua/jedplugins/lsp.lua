@@ -32,7 +32,7 @@ return {
 			"angularls",
 			"cssls",
 			"html",
-			"eslint",
+			-- "eslint",
 			-- LUA
 			"lua_ls",
 			-- RUST

@@ -32,7 +32,7 @@ return {
 			"angularls",
 			"cssls",
 			"html",
-			-- "eslint",
+			"eslint",
 			-- LUA
 			"lua_ls",
 			-- RUST
@@ -79,15 +79,15 @@ return {
 		-- })
 
 		lspzero.on_attach(function(client, bufnr)
-			local opts = { buffer = bufnr, remap = false, silent = true }
+			local opts = { noremap = true, silent = true }
 
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-			vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-			vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-			vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
-			vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
+			vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd> lua vim.lsp.buf.definition()<CR>", opts)
+			vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd> lua vim.lsp.buf.declaration()<CR>", opts)
+			vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd> lua vim.lsp.buf.hover()<CR>", opts)
+			vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd> lua vim.diagnostic.goto_prev()<CR>", opts)
+			vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd> lua vim.diagnostic.goto_next()<CR>", opts)
+			vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lr", "<cmd> lua vim.lsp.buf.rename()<CR>", opts)
+			vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>e", "<cmd> lua vim.diagnostic.open_float()<CR>", opts)
 		end)
 
 		lspzero.format_mapping("<Space>f", {

@@ -30,3 +30,5 @@ vim.opt.mouse = ""
 
 vim.cmd("match ExtraWhitespace /\\s\\+\\%#\\@<!$/")
 vim.cmd("hi ExtraWhitespace ctermbg=red guibg=red")
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1

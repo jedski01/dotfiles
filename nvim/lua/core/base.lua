@@ -28,7 +28,15 @@ vim.opt.scrolloff = 10
 vim.opt.cmdheight = 1
 vim.opt.mouse = ""
 
-vim.cmd("match ExtraWhitespace /\\s\\+\\%#\\@<!$/")
-vim.cmd("hi ExtraWhitespace ctermbg=red guibg=red")
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- Terminal
+vim.api.nvim_create_augroup("Terminal", { clear = true })
+vim.api.nvim_create_autocmd("TermOpen", {
+	pattern = { "term://*" },
+  group = "Terminal",
+	callback = function()
+		vim.opt_local.relativenumber = false
+		vim.opt_local.number = false
+		vim.opt_local.signcolumn = "no"
+	end,
+})
+

@@ -3,6 +3,8 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons", -- optional
 	},
+  lazy = false,
+  priority = 99,
 	config = function()
 		require("nvim-tree").setup({
 			sort_by = "case_sensitive",

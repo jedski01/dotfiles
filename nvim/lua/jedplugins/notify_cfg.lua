@@ -1,7 +1,6 @@
 return {
 	"rcarriga/nvim-notify",
-  priority = 98,
-  lazy = false,
+  enabled = false,
 	config = function()
 		local notify = require("notify")
 		vim.notify = notify

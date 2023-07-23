@@ -5,7 +5,7 @@ vim.api.nvim_set_keymap("n", "<Space>h", ":bf<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>j", ":bn<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>k", ":bp<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>l", ":bl<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>p", ":bp<bar>sp<bar>bn<bar>bd<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<Space>;", ":bp<bar>sp<bar>bn<bar>bd<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>d", ":%bd<CR>", silentopts)
 
 -- Quickfix shortcuts
@@ -59,18 +59,9 @@ vim.api.nvim_set_keymap("n", "<leader>Y", '"+Y', silentopts)
 -- NOPE
 vim.api.nvim_set_keymap("n", "Q", "<nop>", silentopts)
 
--- Splits
--- vim.api.nvim_set_keymap('n', '<C-s>', ':vsplit<CR>', silentopts)
--- vim.api.nvim_set_keymap('i', '<C-s>', ':vsplit<CR>', silentopts)
--- vim.api.nvim_set_keymap('n', '<C-x>', ':split<CR>', silentopts)
--- vim.api.nvim_set_keymap('i', '<C-x>', ':split<CR>', silentopts)
-
 -- Window navigation
 vim.api.nvim_set_keymap("n", "<C-h>", ":wincmd h<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-j>", ":wincmd j<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-k>", ":wincmd k<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-l>", ":wincmd l<CR>", silentopts)
 
--- Organize Imports
--- typescript
-vim.api.nvim_set_keymap("n", "<Space>oi", ":OrganizeImports<CR>", silentopts)

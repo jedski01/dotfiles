@@ -16,6 +16,6 @@ return {
 			silentopts
 		)
 
-		vim.api.nvim_set_keymap("n", "<leader>wr", '<cmd>lua require("hop").hint_lines()<CR>', silentopts)
+		vim.api.nvim_set_keymap("n", "<leader>wr", '<cmd>lua require("hop").hint_lines_skip_whitespace()<CR>', silentopts)
 	end,
 }

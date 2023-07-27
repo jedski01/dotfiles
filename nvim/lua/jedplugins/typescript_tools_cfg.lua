@@ -1,6 +1,7 @@
 return {
 	"pmizio/typescript-tools.nvim",
 	dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  disabled = true,
 	config = function()
 		require("typescript-tools").setup({
 			on_attach = function(client, bufnr)

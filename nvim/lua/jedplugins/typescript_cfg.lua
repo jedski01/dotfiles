@@ -13,6 +13,7 @@ return {
 					buf_keymap(bufnr, "n", "<leader>toi", ":TypescriptOrganizeImports<CR", opts)
 					buf_keymap(bufnr, "n", "<leader>tru", ":TypescriptRemoveUnused<CR>", opts)
 					buf_keymap(bufnr, "n", "<leader>tfa", ":TypescriptFixAll<CR>", opts)
+					buf_keymap(bufnr, "n", "<leader>tmi", ":TypescriptAddMissingImports<CR>", opts)
 				end,
 			},
 		})

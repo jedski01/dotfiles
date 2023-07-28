@@ -20,6 +20,7 @@ return {
 		{ "rafamadriz/friendly-snippets" },
 		{ "onsails/lspkind.nvim" },
 		{ "jose-elias-alvarez/null-ls.nvim" },
+		{ "hrsh7th/cmp-path" },
 	},
 	config = function()
 		local lspzero = require("lsp-zero")
@@ -53,8 +54,9 @@ return {
 		lspzero.setup_nvim_cmp({
 			mapping = cmp_mappings,
 			sources = {
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" },
+				{ name = "nvim_lsp", max_item_count = 10 },
+				{ name = "luasnip", max_item_count = 10 },
+				{ name = "path" },
 			},
 		})
 

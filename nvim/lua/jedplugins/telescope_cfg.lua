@@ -75,6 +75,12 @@ function Config()
 	)
 	vim.keymap.set(
 		"n",
+		"<leader>ft",
+		'<cmd> lua require("telescope.builtin").lsp_document_symbols({ ignore_symbols = { "constant" } })<CR>',
+		silentopts
+	)
+	vim.keymap.set(
+		"n",
 		"<leader>fb",
 		'<cmd> lua require("telescope.builtin").buffers{ layout_strategy = "vertical", previewer = false }<CR>',
 		silentopts

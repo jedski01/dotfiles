@@ -14,6 +14,7 @@ function Config()
 					["<C-k>"] = actions.move_selection_previous,
 					["<C-j>"] = actions.move_selection_next,
 					["<C-[>"] = actions.close,
+					["<C-w>"] = actions.send_selected_to_qflist + actions.open_qflist,
 				},
 			},
 			layout_config = {

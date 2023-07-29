@@ -54,9 +54,9 @@ return {
 		lspzero.setup_nvim_cmp({
 			mapping = cmp_mappings,
 			sources = {
-				{ name = "nvim_lsp", max_item_count = 10 },
-				{ name = "luasnip", max_item_count = 10 },
-				{ name = "path" },
+				{ name = "nvim_lsp", max_item_count = 20 },
+				{ name = "luasnip", max_item_count = 20 },
+				{ name = "path", max_item_count = 20 },
 			},
 		})
 
@@ -132,6 +132,16 @@ return {
 						latex_symbols = "[Latex]",
 					},
 				}),
+				sorting = {
+					comparators = {
+						cmp.config.compare.offset,
+						cmp.config.compare.exact,
+						cmp.config.compare.score,
+						cmp.config.compare.kind,
+						cmp.config.compare.length,
+						cmp.config.compare.order,
+					},
+				},
 			},
 		})
 

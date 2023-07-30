@@ -21,6 +21,7 @@ return {
 		{ "onsails/lspkind.nvim" },
 		{ "jose-elias-alvarez/null-ls.nvim" },
 		{ "hrsh7th/cmp-path" },
+		{ "windwp/nvim-autopairs" },
 	},
 	config = function()
 		local lspzero = require("lsp-zero")
@@ -43,6 +44,7 @@ return {
 		})
 
 		local cmp = require("cmp")
+		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 		local cmp_select = { behavior = cmp.SelectBehavior.Select }
 		local cmp_mappings = lspzero.defaults.cmp_mappings({
 			["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
@@ -50,6 +52,8 @@ return {
 			["<CR>"] = cmp.mapping.confirm({ select = true }),
 			["<C-Space>"] = cmp.mapping.complete(),
 		})
+
+		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done)
 
 		lspzero.setup_nvim_cmp({
 			mapping = cmp_mappings,
@@ -61,24 +65,6 @@ return {
 		})
 
 		require("luasnip.loaders.from_vscode").lazy_load()
-
-		-- local function organize_imports()
-		-- 	local params = {
-		-- 		command = "_typescript.organizeImports",
-		-- 		arguments = { vim.api.nvim_buf_get_name(0) },
-		-- 		title = "",
-		-- 	}
-		-- 	vim.lsp.buf.execute_command(params)
-		-- end
-
-		-- require("lspconfig").tsserver.setup({
-		-- 	commands = {
-		-- 		OrganizeImports = {
-		-- 			organize_imports,
-		-- 			description = "Organize imports",
-		-- 		},
-		-- 	},
-		-- })
 
 		lspzero.on_attach(function(client, bufnr)
 			local opts = { noremap = true, silent = true }
@@ -106,8 +92,6 @@ return {
 		-- Override capabilities for clangd to fix offset encoding warning
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities.offsetEncoding = { "utf-16" }
-
-		-- require("lspconfig").clangd.setup({ capabilities = capabilities })
 
 		-- Setup cmp kind after lspzero
 		cmp.setup({

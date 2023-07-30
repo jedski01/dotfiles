@@ -53,7 +53,7 @@ return {
 			["<C-Space>"] = cmp.mapping.complete(),
 		})
 
-		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done)
+		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 		lspzero.setup_nvim_cmp({
 			mapping = cmp_mappings,

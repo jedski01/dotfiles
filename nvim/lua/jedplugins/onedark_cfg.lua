@@ -1,7 +1,7 @@
 return {
 	"navarasu/onedark.nvim",
-  priority = 100,
-  lazy = false,
+	priority = 100,
+	lazy = false,
 	config = function()
 		local color = require("onedark.palette")
 
@@ -42,8 +42,8 @@ return {
 		vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = color.warm.bg0 })
 		vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { bg = color.warm.bg0, fg = color.warm.bg0 })
 
-		vim.api.nvim_set_hl(0, "CursorLine", { bg = color.warmer.bg0 })
-		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = color.warmer.orange })
+		-- vim.api.nvim_set_hl(0, "CursorLine", { bg = color.warmer.bg0 })
+		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = color.warmer.orange, bg = color.warmer.bg1 })
 		vim.api.nvim_set_hl(0, "FidgetTask", { bg = color.warm.bg0, fg = "#e8e8e8" })
 		vim.api.nvim_set_hl(0, "FidgetTitle", { bg = color.warm.bg0, fg = color.warm.orange })
 		vim.api.nvim_set_hl(0, "MarkSignHL", { fg = color.warmer.blue })

@@ -1,14 +1,9 @@
 return {
-	"jay-babu/mason-nvim-dap.nvim",
+	"rcarriga/nvim-dap-ui",
 	dependencies = {
-		"williamboman/mason.nvim",
 		"mfussenegger/nvim-dap",
 	},
 	config = function()
-		require("mason-nvim-dap").setup({
-			ensure_installed = { "cppdbg" },
-		})
-
 		local dapui = require("dapui")
 
 		dapui.setup({
@@ -67,5 +62,81 @@ return {
 		dap.listeners.before.event_exited["dapui_config"] = function()
 			dapui.close()
 		end
+
+		-- vscode-js
+		for _, language in ipairs({ "typescript", "javascript" }) do
+			dap.configurations[language] = {
+				{
+					type = "pwa-node",
+					request = "launch",
+					name = "Launch file",
+					program = "${file}",
+					cwd = "${workspaceFolder}",
+				},
+				{
+					type = "pwa-node",
+					request = "attach",
+					name = "Attach",
+          sourceMaps = true,
+					processId = require("dap.utils").pick_process,
+					cwd = "${workspaceFolder}",
+				},
+				{
+					type = "pwa-chrome",
+					request = "launch",
+					name = 'Start Chrome with "localhost"',
+					url = "http://localhost:3000",
+					webRoot = "${workspaceFolder}",
+					userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdatadir",
+				},
+        {
+          name = "Remote  Attach",
+          type = "node",
+          request = "attach",
+          port = function()
+            return vim.fn.input("Port: ")
+          end,
+          address = function()
+            return vim.fn.input("Address: ")
+          end,
+          sourceMaps = true,
+          localRoot = "${workspaceFolder}",
+        }
+			}
+		end
+
+		-- C/C++
+		-- Follow this guide for initial configuration
+		-- https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-(gdb-via--vscode-cpptools)
+		dap.adapters.cppdbg = {
+			id = "cppdbg",
+			type = "executable",
+			command = "OpenDebugAD7",
+			options = {
+				detached = false,
+			},
+		}
+
+		dap.configurations.c = {
+			{
+				name = "Connect to GDB server",
+				type = "cppdbg",
+				request = "launch",
+				MIMode = "gdb",
+				miDebuggerServerAddress = function()
+					return vim.fn.input("Remote GDB Server: ")
+				end,
+				miDebuggerArgs = function()
+					return vim.fn.input("Extra args: ")
+				end,
+				minDebuggerPath = "usr/bin/gdb",
+				cwd = "${workspaceFolder}",
+				program = function()
+					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+				end,
+			},
+		}
+
+		dap.configurations.cpp = dap.configurations.c
 	end,
 }

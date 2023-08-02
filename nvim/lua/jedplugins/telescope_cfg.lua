@@ -97,7 +97,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-live-grep-args.nvim",
-			"nvim-telescope/telescope-dap.nvim",
+			{ "nvim-telescope/telescope-dap.nvim", dependencies = { "mfussenegger/nvim-dap" } },
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "make",

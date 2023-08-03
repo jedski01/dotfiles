@@ -31,12 +31,15 @@ function Config()
 				width = 0.7,
 			},
 		},
-		extension = {
+		extensions = {
 			fzf = {
 				fuzzy = true,
 				override_generic_sorter = true,
 				override_file_sorter = true,
 				case_mode = "ignore_case",
+			},
+			live_grep_args = {
+				auto_quoting = true,
 			},
 		},
 	})
@@ -48,6 +51,7 @@ function Config()
 	-- KEY BINDINGS
 	local builtin = require("telescope.builtin")
 	local extensions = require("telescope").extensions
+	local lga_shortcuts = require("telescope-live-grep-args.shortcuts")
 	local silentopts = { noremap = true, silent = true }
 
 	vim.keymap.set(
@@ -57,6 +61,8 @@ function Config()
 		silentopts
 	)
 	vim.keymap.set("n", "<leader>fg", extensions.live_grep_args.live_grep_args, silentopts)
+	vim.keymap.set("n", "<leader>fd", lga_shortcuts.grep_word_under_cursor, silentopts)
+	vim.keymap.set("v", "<leader>fd", lga_shortcuts.grep_visual_selection, silentopts)
 	vim.keymap.set(
 		"n",
 		"<leader>ff",
@@ -77,7 +83,7 @@ function Config()
 	vim.keymap.set(
 		"n",
 		"<leader>ft",
-		'<cmd> lua require("telescope.builtin").lsp_document_symbols({ ignore_symbols = { "constant" } })<CR>',
+		'<cmd> lua require("telescope.builtin").lsp_document_symbols({ ignore_symbols = { "constant" }, symbol_width=70 })<CR>',
 		silentopts
 	)
 	vim.keymap.set(

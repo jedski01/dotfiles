@@ -87,6 +87,13 @@ return {
 				["null-ls"] = { "javascript", "typescript", "lua", "html", "css", "scss", "json", "c" },
 			},
 		})
+
+		require("lspconfig").clangd.setup({
+      on_init = function(client)
+        client.server_capabilities.semanticTokensProvider = nil
+      end
+		})
+
 		lspzero.setup()
 
 		-- Override capabilities for clangd to fix offset encoding warning

@@ -94,6 +94,15 @@ function Config()
 	)
 	vim.keymap.set("n", "<leader>fs", builtin.grep_string, silentopts)
 	vim.keymap.set("n", "<leader>d", builtin.diagnostics, silentopts)
+
+	vim.keymap.set(
+		"n",
+		"<leader>gb",
+		"<cmd> lua require('telescope.builtin').git_branches({ layout_strategy = 'vertical', previewer = false })<CR>",
+		silentopts
+	)
+
+	vim.keymap.set("n", "<leader>gc", builtin.git_bcommits, silentopts)
 end
 
 return {

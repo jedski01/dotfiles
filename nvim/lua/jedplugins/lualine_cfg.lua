@@ -4,7 +4,8 @@ return {
 	config = function()
 		require("lualine").setup({
 			options = {
-				theme = "onedark",
+				-- theme = "onedark",
+        theme = "catppuccin-mocha",
 				section_separators = "",
 				component_separators = "",
 				globalstatus = true,

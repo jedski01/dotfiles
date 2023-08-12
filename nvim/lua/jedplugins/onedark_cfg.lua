@@ -1,6 +1,7 @@
 return {
 	"navarasu/onedark.nvim",
 	priority = 100,
+  enabled = false,
 	lazy = false,
 	config = function()
 		local color = require("onedark.palette")

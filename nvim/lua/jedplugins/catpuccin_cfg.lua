@@ -2,6 +2,7 @@ return {
 	"catppuccin/nvim",
 	name = "catppuccin",
 	priority = 1000,
+	enabled = false,
 	lazy = false,
 	config = function()
 		require("catppuccin").setup({
@@ -12,7 +13,7 @@ return {
 				mason = true,
 				notify = true,
 				gitgutter = true,
-        vimwiki = true,
+				vimwiki = true,
 			},
 		})
 		vim.cmd("colorscheme catppuccin")

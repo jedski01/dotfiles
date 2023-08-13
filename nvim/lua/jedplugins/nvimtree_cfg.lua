@@ -3,9 +3,49 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons", -- optional
 	},
-  lazy = false,
-  priority = 99,
+	lazy = false,
+	priority = 99,
 	config = function()
+		local icons = {
+			git_placement = "after",
+			modified_placement = "after",
+			padding = " ",
+			glyphs = {
+				default = "󰈔",
+				folder = {
+					arrow_closed = "",
+					arrow_open = "",
+					default = " ",
+					open = " ",
+					empty = " ",
+					empty_open = " ",
+					symlink = "󰉒 ",
+					symlink_open = "󰉒 ",
+				},
+				git = {
+					deleted = "",
+					unstaged = "",
+					untracked = "",
+					staged = "",
+					unmerged = "",
+					ignored = "I",
+					renamed = "R",
+				},
+			},
+		}
+
+		local renderer = {
+      root_folder_label = function(path)
+          return "󰉒 " .. vim.fn.fnamemodify(path, ":t")
+      end,
+			indent_width = 2,
+			indent_markers = {
+				enable = true,
+				inline_arrows = true,
+				icons = { corner = "╰" },
+			},
+			icons = icons,
+		}
 		require("nvim-tree").setup({
 			sort_by = "case_sensitive",
 			view = {
@@ -20,23 +60,7 @@ return {
 					close = true,
 				},
 			},
-			renderer = {
-				icons = {
-					glyphs = {
-						git = {
-							unstaged = "",
-							staged = "",
-							unmerged = "⊜",
-							renamed = "R",
-							untracked = "",
-							deleted = "D",
-							ignored = "I",
-						},
-					},
-					git_placement = "after",
-					modified_placement = "after",
-				},
-			},
+			renderer = renderer,
 		})
 
 		vim.api.nvim_set_keymap("n", "<leader>tt", ":NvimTreeToggle<CR>", { noremap = true, silent = true })

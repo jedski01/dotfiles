@@ -3,6 +3,7 @@ function Config()
 
 	require("telescope").setup({
 		defaults = {
+      sort_mru = true,
 			path_display = "truncate",
 			file_ignore_patterns = { "node%_modules/.*" },
 			sorting_strategy = "ascending",

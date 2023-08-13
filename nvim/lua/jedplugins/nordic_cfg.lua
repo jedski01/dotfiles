@@ -13,7 +13,8 @@ return {
 			override = {
 				IndentBlanklineContextChar = { fg = palette.orange.base },
 				LspSignatureActiveParameter = { fg =  colors.bg_float, sp = colors.white0},
-        Visual = { bg = palette.gray4 }
+        Visual = { bg = palette.gray4 },
+        BufferLineFill = { bg = palette.black0 }
 			},
 		})
 	end,

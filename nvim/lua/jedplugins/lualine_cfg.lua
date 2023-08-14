@@ -67,7 +67,7 @@ return {
 						diagnostics = d
 					end
 				end
-				local icons = { " ", " ", " ", " " }
+				local icons = { " ", " ", " ", " " }
 				local hl = { self.highlights.error, self.highlights.warn, self.highlights.info, self.highlights.hint }
 				return highlight.component_format_highlight(hl[diag.severity])
 					.. icons[diag.severity]

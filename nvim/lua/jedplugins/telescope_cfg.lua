@@ -98,6 +98,12 @@ function Config()
 
 	vim.keymap.set(
 		"n",
+		"<leader>glb",
+		"<cmd> lua require('telescope.builtin').git_branches({ layout_strategy = 'vertical', previewer = false, pattern = 'refs/heads/' })<CR>",
+		silentopts
+	)
+	vim.keymap.set(
+		"n",
 		"<leader>gb",
 		"<cmd> lua require('telescope.builtin').git_branches({ layout_strategy = 'vertical', previewer = false })<CR>",
 		silentopts

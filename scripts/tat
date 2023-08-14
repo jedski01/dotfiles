@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# Attach or create tmux session named the same as specified directory.
+#
+# This creates a new session based on a specified directory or current directory if not
+# specified. It attaches a new session to the current running server if its already running
+# else it creates a new server
+
+current_path=$PWD
+
+# Check if dir is specified and exists, else use the current directory as starting point
+if [ ! -z "$1" ]; then
+  if [ -d "$1" ]; then
+    echo "Directory found"
+    current_path=$1
+  else
+    echo "Directory not found, using current directory"
+    current_path=$PWD
+  fi
+else
+  echo "No directory specified, using current directory"
+  current_path=$PWD
+fi
+
+not_in_tmux() {
+  [ -z "$TMUX" ]
+}
+
+session_exists() {
+  session_name=$1
+  tmux list-sessions | sed -E 's/:.*$//' | grep -q "^$session_name$"
+}
+
+create_detached_session() {
+  session_path=$1
+  session_name=$2
+  (TMUX='' tmux new-session -Ad -s "$session_name" -c "$session_path")
+}
+
+create_if_needed_and_attach() {
+  session_path=$1
+  session_name="$(basename "$session_path" | tr . - )"
+
+  if not_in_tmux; then
+    tmux new-session -As "$session_name" -c "$session_path"
+  else
+    if ! session_exists "$session_name"; then
+      create_detached_session "$session_path" "$session_name"
+    fi
+    tmux switch-client -t "$session_name"
+  fi
+}
+
+create_if_needed_and_attach "$current_path"

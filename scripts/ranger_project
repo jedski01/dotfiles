@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Opens a ranger based on the the environment variable RANGER_PROJECT_DIRECTORY
+# if not specified, it will use the current directory
+
+current_path=$PWD
+
+if [ ! -z "$RANGER_PROJECT_DIRECTORY" ]; then
+  if [ -d "$RANGER_PROJECT_DIRECTORY" ]; then
+    current_path=$RANGER_PROJECT_DIRECTORY
+  else
+    echo "RANGER_PROJECT_DIRECTORY directory does not exists"
+    current_path=$PWD
+  fi
+else
+  echo "RANGER_PROJECT_DIRECTORY env variable not specified, using current directory"
+fi
+
+ranger --show-only-dirs ${current_path}

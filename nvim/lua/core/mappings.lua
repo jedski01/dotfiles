@@ -2,8 +2,8 @@ local silentopts = { noremap = true, silent = true }
 
 -- Buffer navigation
 vim.api.nvim_set_keymap("n", "<Space>h", ":bf<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>j", ":bn<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>k", ":bp<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<Space>k", ":bn<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<Space>j", ":bp<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>l", ":bl<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>;", ":bp<bar>sp<bar>bn<bar>bd<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>d", ":%bd<CR>", silentopts)

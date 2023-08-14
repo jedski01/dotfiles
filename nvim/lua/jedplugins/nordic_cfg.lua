@@ -14,7 +14,8 @@ return {
 				IndentBlanklineContextChar = { fg = palette.orange.base },
 				LspSignatureActiveParameter = { fg =  colors.bg_float, sp = colors.white0},
         Visual = { bg = palette.gray4 },
-        BufferLineFill = { bg = palette.black0 }
+        BufferLineFill = { bg = palette.black0 },
+        BufferLineTabSelected = { bg = palette.gray0, fg = palette.yellow.base }
 			},
 		})
 	end,

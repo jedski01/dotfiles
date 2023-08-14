@@ -1,6 +1,9 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
+	dependencies = {
+		"nvim-tree/nvim-web-devicons",
+		"arkav/lualine-lsp-progress",
+	},
 	config = function()
 		local utils = require("lualine.utils.utils")
 		local highlight = require("lualine.highlight")
@@ -90,18 +93,18 @@ return {
 				},
 				lualine_b = {
 					"branch",
-          {
-            "diff",
-            padding = { right = 1 },
-            color = { fg = c.gray3 },
-            icon = { " ", color = { fg = c.gray3 } },
-            symbols = { added = " ", modified = " ", removed = " " },
-            diff_color = {
-              added = { fg = c.green.base },
-              modified = { fg = c.blue0 },
-              removed = { fg = c.orange.base },
-            },
-          },
+					{
+						"diff",
+						padding = { right = 1 },
+						color = { fg = c.gray3 },
+						icon = { " ", color = { fg = c.gray3 } },
+						symbols = { added = " ", modified = " ", removed = " " },
+						diff_color = {
+							added = { fg = c.green.base },
+							modified = { fg = c.blue0 },
+							removed = { fg = c.orange.base },
+						},
+					},
 				},
 				lualine_c = {
 					"filename",
@@ -118,8 +121,6 @@ return {
 						colored = true,
 						padding = 1,
 					},
-				},
-				lualine_x = {
 					{
 						diagnostics_message,
 						colors = {
@@ -130,6 +131,7 @@ return {
 						},
 					},
 				},
+				lualine_x = { "lsp_progress" },
 				lualine_y = { "encoding", "fileformat", "filetype" },
 				lualine_z = {
 					{

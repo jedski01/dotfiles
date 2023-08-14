@@ -17,22 +17,22 @@ return {
 				error = utils.extract_color_from_hllist(
 					{ "fg", "sp" },
 					{ "DiagnosticError", "LspDiagnosticsDefaultError", "DiffDelete" },
-          c.error
+					c.error
 				),
 				warning = utils.extract_color_from_hllist(
 					{ "fg", "sp" },
 					{ "DiagnosticWarn", "LspDiagnosticsDefaultWarning", "DiffText" },
-          c.warn
+					c.warn
 				),
 				info = utils.extract_color_from_hllist(
 					{ "fg", "sp" },
 					{ "DiagnosticInfo", "LspDiagnosticsDefaultInformation", "DiffChange" },
-          c.info
+					c.info
 				),
 				hint = utils.extract_color_from_hllist(
 					{ "fg", "sp" },
 					{ "DiagnosticHint", "LspDiagnosticsDefaultHint", "DiffAdd" },
-          c.hint
+					c.hint
 				),
 			},
 		}
@@ -83,6 +83,22 @@ return {
 			end
 		end
 
+		-- LSP clients attached to buffer
+		local clients_lsp = function()
+			local bufnr = vim.api.nvim_get_current_buf()
+
+			local clients = vim.lsp.buf_get_clients(bufnr)
+			if next(clients) == nil then
+				return ""
+			end
+
+			local c = {}
+			for _, client in pairs(clients) do
+				table.insert(c, " " .. client.name)
+			end
+			return table.concat(c, "  ")
+		end
+
 		require("lualine").setup({
 			sections = {
 				lualine_a = {
@@ -131,7 +147,7 @@ return {
 						},
 					},
 				},
-				lualine_x = { "lsp_progress" },
+				lualine_x = { "lsp_progress", clients_lsp },
 				lualine_y = { "encoding", "fileformat", "filetype" },
 				lualine_z = {
 					{

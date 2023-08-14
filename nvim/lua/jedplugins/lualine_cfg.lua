@@ -7,6 +7,8 @@ return {
 	config = function()
 		local utils = require("lualine.utils.utils")
 		local highlight = require("lualine.highlight")
+		-- Required to properly set the colors.
+		local c = require("nordic.colors")
 
 		local diagnostics_message = require("lualine.component"):extend()
 
@@ -15,22 +17,22 @@ return {
 				error = utils.extract_color_from_hllist(
 					{ "fg", "sp" },
 					{ "DiagnosticError", "LspDiagnosticsDefaultError", "DiffDelete" },
-					"#e32636"
+          c.error
 				),
 				warning = utils.extract_color_from_hllist(
 					{ "fg", "sp" },
 					{ "DiagnosticWarn", "LspDiagnosticsDefaultWarning", "DiffText" },
-					"#ffa500"
+          c.warn
 				),
 				info = utils.extract_color_from_hllist(
 					{ "fg", "sp" },
 					{ "DiagnosticInfo", "LspDiagnosticsDefaultInformation", "DiffChange" },
-					"#ffffff"
+          c.info
 				),
 				hint = utils.extract_color_from_hllist(
 					{ "fg", "sp" },
 					{ "DiagnosticHint", "LspDiagnosticsDefaultHint", "DiffAdd" },
-					"#273faf"
+          c.hint
 				),
 			},
 		}
@@ -80,8 +82,6 @@ return {
 				return ""
 			end
 		end
-		-- Required to properly set the colors.
-		local c = require("nordic.colors")
 
 		require("lualine").setup({
 			sections = {

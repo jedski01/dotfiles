@@ -8,7 +8,29 @@ return {
 		local utils = require("lualine.utils.utils")
 		local highlight = require("lualine.highlight")
 		-- Required to properly set the colors.
-		local c = require("nordic.colors")
+		-- local nc = require("nordic.colors")
+    -- local c = {
+      -- error = nc.error,
+      -- warn = nc.warn,
+      -- info = nc.info,
+      -- hint = nc.hint,
+      -- fg = nc.gray3,
+      -- green = nc.green.base,
+      -- blue = nc.blue0,
+      -- orange = nc.orange.base
+    -- }
+
+    local ghc = require('github-theme.palette').load('github_dark_dimmed')
+    local c = {
+      error = ghc.red.base,
+      warn = ghc.yellow.base,
+      info = ghc.blue.base,
+      hint = ghc.cyan.base,
+      fg = ghc.fg1,
+      green = ghc.green.base,
+      blue = ghc.blue.base,
+      orange = ghc.orange.base
+    }
 
 		local diagnostics_message = require("lualine.component"):extend()
 
@@ -112,13 +134,13 @@ return {
 					{
 						"diff",
 						padding = { right = 1 },
-						color = { fg = c.gray3 },
-						icon = { " ", color = { fg = c.gray3 } },
+						color = { fg = c.fg },
+						icon = { " ", color = { fg = c.fg } },
 						symbols = { added = " ", modified = " ", removed = " " },
 						diff_color = {
-							added = { fg = c.green.base },
-							modified = { fg = c.blue0 },
-							removed = { fg = c.orange.base },
+							added = { fg = c.green },
+							modified = { fg = c.blue },
+							removed = { fg = c.orange },
 						},
 					},
 				},
@@ -164,7 +186,7 @@ return {
 			options = {
 				-- theme = "onedark",
 				-- theme = "catppuccin-mocha",
-				theme = "nordic",
+				-- theme = "nordic",
 				section_separators = { left = " ", right = " " },
 				component_separators = { left = "", right = "" },
 				globalstatus = true,

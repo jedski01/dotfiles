@@ -1,4 +1,5 @@
 vim.opt.termguicolors = true
+vim.opt.shell = "fish"
 
 vim.g.mapleader = ","
 

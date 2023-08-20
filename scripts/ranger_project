@@ -16,4 +16,4 @@ else
   echo "RANGER_PROJECT_DIRECTORY env variable not specified, using current directory"
 fi
 
-ranger --show-only-dirs ${current_path}
+ranger -r ~/.config/ranger/custom_config/ --show-only-dirs ${current_path}

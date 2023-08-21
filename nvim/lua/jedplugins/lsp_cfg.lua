@@ -58,8 +58,8 @@ return {
 		lspzero.setup_nvim_cmp({
 			mapping = cmp_mappings,
 			sources = {
-				{ name = "nvim_lsp", max_item_count = 20 },
-				{ name = "luasnip", max_item_count = 20 },
+				{ name = "nvim_lsp", max_item_count = 20, keyword_length = 2 },
+				{ name = "luasnip", max_item_count = 20, keyword_length = 2 },
 				{ name = "path", max_item_count = 20 },
 			},
 		})
@@ -157,6 +157,7 @@ return {
 		vim.diagnostic.config({
 			virtual_text = false,
 		})
+
 		local ls = require("luasnip")
 		local snip = ls.snippet
 		local text = ls.text_node

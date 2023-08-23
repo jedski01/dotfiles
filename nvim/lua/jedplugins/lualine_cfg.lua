@@ -8,6 +8,7 @@ return {
 		local utils = require("lualine.utils.utils")
 		local highlight = require("lualine.highlight")
 		-- Required to properly set the colors.
+    -- NORDIC THEME
 		-- local nc = require("nordic.colors")
     -- local c = {
       -- error = nc.error,
@@ -20,16 +21,31 @@ return {
       -- orange = nc.orange.base
     -- }
 
-    local ghc = require('github-theme.palette').load('github_dark_dimmed')
+    -- GITHUB THEME
+    -- local ghc = require('github-theme.palette').load('github_dark_dimmed')
+    -- local c = {
+    --   error = ghc.red.base,
+    --   warn = ghc.yellow.base,
+    --   info = ghc.blue.base,
+    --   hint = ghc.cyan.base,
+    --   fg = ghc.fg1,
+    --   green = ghc.green.base,
+    --   blue = ghc.blue.base,
+    --   orange = ghc.orange.base
+    -- }
+
+    -- AYU THEME
+    local ayuc = require('ayu.colors')
+    ayuc.generate(true)
     local c = {
-      error = ghc.red.base,
-      warn = ghc.yellow.base,
-      info = ghc.blue.base,
-      hint = ghc.cyan.base,
-      fg = ghc.fg1,
-      green = ghc.green.base,
-      blue = ghc.blue.base,
-      orange = ghc.orange.base
+      error = ayuc.error,
+      warn = ayuc.warning,
+      info = ayuc.vcs_modified,
+      hint = ayuc.vcs_added,
+      fg = ayuc.fg,
+      green = ayuc.vcs_added,
+      blue = ayuc.vcs_modified,
+      orange = ayuc.vcs_removed
     }
 
 		local diagnostics_message = require("lualine.component"):extend()
@@ -116,9 +132,9 @@ return {
 
 			local c = {}
 			for _, client in pairs(clients) do
-				table.insert(c, " " .. client.name)
+				table.insert(c, "[" .. client.name .. "]")
 			end
-			return table.concat(c, "  ")
+			return table.concat(c, " ")
 		end
 
 		require("lualine").setup({
@@ -131,18 +147,19 @@ return {
 				},
 				lualine_b = {
 					"branch",
-					{
-						"diff",
-						padding = { right = 1 },
-						color = { fg = c.fg },
-						icon = { " ", color = { fg = c.fg } },
-						symbols = { added = " ", modified = " ", removed = " " },
-						diff_color = {
-							added = { fg = c.green },
-							modified = { fg = c.blue },
-							removed = { fg = c.orange },
-						},
-					},
+          "diff"
+					-- {
+					-- 	"diff",
+					-- 	padding = { right = 1 },
+					-- 	color = { fg = c.fg },
+					-- 	icon = { " ", color = { fg = c.fg } },
+					-- 	symbols = { added = " ", modified = " ", removed = " " },
+					-- 	diff_color = {
+					-- 		added = { fg = c.green },
+					-- 		modified = { fg = c.blue },
+					-- 		removed = { fg = c.orange },
+					-- 	},
+					-- },
 				},
 				lualine_c = {
 					"filename",

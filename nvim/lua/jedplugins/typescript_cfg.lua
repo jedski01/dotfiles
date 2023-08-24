@@ -1,5 +1,6 @@
 return {
 	"jose-elias-alvarez/typescript.nvim",
+	enabled = false,
 	config = function()
 		require("typescript").setup({
 			disable_commands = false,

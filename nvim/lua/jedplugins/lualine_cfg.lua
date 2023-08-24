@@ -8,45 +8,45 @@ return {
 		local utils = require("lualine.utils.utils")
 		local highlight = require("lualine.highlight")
 		-- Required to properly set the colors.
-    -- NORDIC THEME
+		-- NORDIC THEME
 		-- local nc = require("nordic.colors")
-    -- local c = {
-      -- error = nc.error,
-      -- warn = nc.warn,
-      -- info = nc.info,
-      -- hint = nc.hint,
-      -- fg = nc.gray3,
-      -- green = nc.green.base,
-      -- blue = nc.blue0,
-      -- orange = nc.orange.base
-    -- }
+		-- local c = {
+		-- error = nc.error,
+		-- warn = nc.warn,
+		-- info = nc.info,
+		-- hint = nc.hint,
+		-- fg = nc.gray3,
+		-- green = nc.green.base,
+		-- blue = nc.blue0,
+		-- orange = nc.orange.base
+		-- }
 
-    -- GITHUB THEME
-    -- local ghc = require('github-theme.palette').load('github_dark_dimmed')
-    -- local c = {
-    --   error = ghc.red.base,
-    --   warn = ghc.yellow.base,
-    --   info = ghc.blue.base,
-    --   hint = ghc.cyan.base,
-    --   fg = ghc.fg1,
-    --   green = ghc.green.base,
-    --   blue = ghc.blue.base,
-    --   orange = ghc.orange.base
-    -- }
+		-- GITHUB THEME
+		-- local ghc = require('github-theme.palette').load('github_dark_dimmed')
+		-- local c = {
+		--   error = ghc.red.base,
+		--   warn = ghc.yellow.base,
+		--   info = ghc.blue.base,
+		--   hint = ghc.cyan.base,
+		--   fg = ghc.fg1,
+		--   green = ghc.green.base,
+		--   blue = ghc.blue.base,
+		--   orange = ghc.orange.base
+		-- }
 
-    -- AYU THEME
-    local ayuc = require('ayu.colors')
-    ayuc.generate(true)
-    local c = {
-      error = ayuc.error,
-      warn = ayuc.warning,
-      info = ayuc.vcs_modified,
-      hint = ayuc.vcs_added,
-      fg = ayuc.fg,
-      green = ayuc.vcs_added,
-      blue = ayuc.vcs_modified,
-      orange = ayuc.vcs_removed
-    }
+		-- AYU THEME
+		local ayuc = require("ayu.colors")
+		ayuc.generate(true)
+		local c = {
+			error = ayuc.error,
+			warn = ayuc.warning,
+			info = ayuc.vcs_modified,
+			hint = ayuc.vcs_added,
+			fg = ayuc.fg,
+			green = ayuc.vcs_added,
+			blue = ayuc.vcs_modified,
+			orange = ayuc.vcs_removed,
+		}
 
 		local diagnostics_message = require("lualine.component"):extend()
 
@@ -147,19 +147,7 @@ return {
 				},
 				lualine_b = {
 					"branch",
-          "diff"
-					-- {
-					-- 	"diff",
-					-- 	padding = { right = 1 },
-					-- 	color = { fg = c.fg },
-					-- 	icon = { " ", color = { fg = c.fg } },
-					-- 	symbols = { added = " ", modified = " ", removed = " " },
-					-- 	diff_color = {
-					-- 		added = { fg = c.green },
-					-- 		modified = { fg = c.blue },
-					-- 		removed = { fg = c.orange },
-					-- 	},
-					-- },
+					"diff",
 				},
 				lualine_c = {
 					"filename",
@@ -204,10 +192,11 @@ return {
 				-- theme = "onedark",
 				-- theme = "catppuccin-mocha",
 				-- theme = "nordic",
+				theme = "ayu",
 				section_separators = { left = " ", right = " " },
 				component_separators = { left = "", right = "" },
 				globalstatus = true,
-				disabled_filetypes = { "packer", "dashboard", "NvimTree" },
+				-- disabled_filetypes = { "dashboard" },
 			},
 		})
 	end,

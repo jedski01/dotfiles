@@ -1,5 +1,6 @@
 vim.opt.termguicolors = true
 vim.opt.shell = "fish"
+vim.o.background = "dark"
 
 vim.g.mapleader = ","
 

@@ -54,7 +54,6 @@ return {
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 				["<C-Space>"] = cmp.mapping.complete(),
 			})
-
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 			lspzero.setup_nvim_cmp({
@@ -65,7 +64,6 @@ return {
 					{ name = "path", max_item_count = 20 },
 				},
 			})
-
 			require("luasnip.loaders.from_vscode").lazy_load()
 
 			lspzero.on_attach(function(client, bufnr)
@@ -104,6 +102,16 @@ return {
 
 			-- Setup cmp kind after lspzero
 			cmp.setup({
+        enabled = function()
+          local context = require("cmp.config.context")
+          if context.in_treesitter_capture("comment") == true or
+            context.in_syntax_group('Comment') or
+            context.in_treesitter_capture("string") or
+            context.in_treesitter_capture("string.regex") then
+            return false
+          end
+          return true
+        end,
 				completion = {
 					completeopt = "menu,menuone,noinsert",
 				},
@@ -136,6 +144,9 @@ return {
 						},
 					},
 				},
+        matching = {
+          disallow_fuzzy_matching = true
+        }
 			})
 
 			local null_ls = require("null-ls")

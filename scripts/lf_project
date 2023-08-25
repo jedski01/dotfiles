@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+
+if test -n $RANGER_PROJECT_DIRECTORY
+  set project_path $RANGER_PROJECT_DIRECTORY
+else
+  set project_path (pwd)
+end
+
+lf -config "$HOME/.config/lf/lftatrc" "$project_path"

@@ -1,0 +1,11 @@
+set dirfirst true
+set preview false
+set ratios 1
+
+cmd create_tmux_session ${{
+  if [ -d "$f" ];then
+    tat "$f"
+  fi
+}}
+
+map <c-t> create_tmux_session

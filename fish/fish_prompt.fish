@@ -95,5 +95,5 @@ function fish_prompt
   ##
   ## Rest of the prompt
   ##
-  echo -n $orange'─'$fg$__fish_prompt_char $normal
+  echo -n $orange'─' $normal
 end

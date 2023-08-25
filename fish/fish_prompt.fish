@@ -18,22 +18,21 @@ function fish_prompt
   end
 
   # Setup colors
-  set -l hostcolor (set_color (uname -n | md5sum | cut -f1 -d' ' | tr -d '\n' | tail -c6))
   set -l normal (set_color normal)
-  set -l white (set_color FFFFFF)
-  set -l turquoise (set_color 5fdfff)
-  set -l orange (set_color ffbc6f)
-  set -l hotpink (set_color fc8dc7)
-  set -l blue (set_color 96d0ff)
-  set -l limegreen (set_color 8ddb8c)
-  set -l purple (set_color dcbdfb)
+  set -l turquoise (set_color 95e6cb)
+  set -l orange (set_color ffa759)
+  set -l red (set_color ff3333)
+  set -l blue (set_color 73d0ff)
+  set -l limegreen (set_color bae67e)
+  set -l purple (set_color f27983)
+  set -l fg (set_color cbccc6)
 
   # Configure __fish_git_prompt
   set -g __fish_git_prompt_char_stateseparator ' '
   set -g __fish_git_prompt_color ffb9a5
   set -g __fish_git_prompt_color_flags df5f00
-  set -g __fish_git_prompt_color_prefix white
-  set -g __fish_git_prompt_color_suffix white
+  set -g __fish_git_prompt_color_prefix cbccc6
+  set -g __fish_git_prompt_color_suffix cbccc6
   set -g __fish_git_prompt_showdirtystate true
   set -g __fish_git_prompt_showuntrackedfiles true
   set -g __fish_git_prompt_showstashstate true
@@ -44,21 +43,21 @@ function fish_prompt
   ##
   ## Line 1
   ##
-  echo -n $hostcolor'╭─'$hotpink$current_user$white' at '$orange$__fish_prompt_hostname$white' in '$limegreen(pwd|sed "s=$HOME=⌁=")$turquoise
+  echo -n $orange'╭─'$blue$current_user$fg' at '$orange$__fish_prompt_hostname$fg' in '$limegreen(pwd|sed "s=$HOME=⌁=")$turquoise
   __fish_git_prompt " (%s)"
   echo
 
   ##
   ## Line 2
   ##
-  echo -n $hostcolor'╰'
+  echo -n $orange'╰'
 
   # Disable virtualenv's default prompt
   set -g VIRTUAL_ENV_DISABLE_PROMPT true
 
   # support for virtual env name
   if set -q VIRTUAL_ENV
-    echo -n "($turquoise"(basename "$VIRTUAL_ENV")"$white)"
+    echo -n "($turquoise"(basename "$VIRTUAL_ENV")"$fg)"
   end
 
   ##
@@ -71,7 +70,7 @@ function fish_prompt
       or test "$fish_key_bindings" = fish_hybrid_key_bindings
     if test -z (string match -ri '^no|false|0$' $lambdaViMode)
       set_color --bold
-      echo -n $white'─['
+      echo -n $fg'─['
       switch $fish_bind_mode
         case default
           set_color red
@@ -89,12 +88,12 @@ function fish_prompt
           set_color magenta
           echo -n 'v'
       end
-      echo -n $white']'
+      echo -n $fg']'
     end
   end
 
   ##
   ## Rest of the prompt
   ##
-  echo -n $hostcolor'─'$white$__fish_prompt_char $normal
+  echo -n $orange'─'$fg$__fish_prompt_char $normal
 end

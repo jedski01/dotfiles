@@ -8,6 +8,7 @@ return {
         vim.keymap.set('n', '<leader>hb', function() gs.blame_line{full=true} end)
         vim.keymap.set('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
         vim.keymap.set('n', '<leader>tb', gs.toggle_current_line_blame)
+        vim.keymap.set('n', '<leader>hp', gs.preview_hunk)
 
 				-- Navigation
 				vim.keymap.set("n", "]c", function()

@@ -43,6 +43,8 @@ return {
 				"rust_analyzer",
 				-- C/C++
 				"clangd",
+				-- Bash
+				"bashls",
 			})
 
 			local cmp = require("cmp")
@@ -102,16 +104,18 @@ return {
 
 			-- Setup cmp kind after lspzero
 			cmp.setup({
-        enabled = function()
-          local context = require("cmp.config.context")
-          if context.in_treesitter_capture("comment") == true or
-            context.in_syntax_group('Comment') or
-            context.in_treesitter_capture("string") or
-            context.in_treesitter_capture("string.regex") then
-            return false
-          end
-          return true
-        end,
+				enabled = function()
+					local context = require("cmp.config.context")
+					if
+						context.in_treesitter_capture("comment") == true
+						or context.in_syntax_group("Comment")
+						or context.in_treesitter_capture("string")
+						or context.in_treesitter_capture("string.regex")
+					then
+						return false
+					end
+					return true
+				end,
 				completion = {
 					completeopt = "menu,menuone,noinsert",
 				},
@@ -144,9 +148,9 @@ return {
 						},
 					},
 				},
-        matching = {
-          disallow_fuzzy_matching = true
-        }
+				matching = {
+					disallow_fuzzy_matching = true,
+				},
 			})
 
 			local null_ls = require("null-ls")
@@ -224,6 +228,11 @@ return {
 		dependencies = { "nvim-lspconfig" },
 		config = function()
 			require("lspconfig").vtsls.setup({
+        -- Add preferences here if needed
+        -- check tabbing perhaps
+        -- init_options = {
+        --   preferences = {}
+        -- }
 				on_attach = function(client, bufnr)
 					local opts = { noremap = true, silent = true }
 					local buf_keymap = vim.api.nvim_buf_set_keymap

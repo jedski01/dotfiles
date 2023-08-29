@@ -36,6 +36,7 @@ return {
 				"angularls",
 				"cssls",
 				"html",
+				"jsonls",
 				-- "eslint",
 				-- LUA
 				"lua_ls",
@@ -106,11 +107,13 @@ return {
 			cmp.setup({
 				enabled = function()
 					local context = require("cmp.config.context")
+					local buftype = vim.api.nvim_buf_get_option(0, "buftype")
 					if
 						context.in_treesitter_capture("comment") == true
 						or context.in_syntax_group("Comment")
 						or context.in_treesitter_capture("string")
 						or context.in_treesitter_capture("string.regex")
+						or buftype == "prompt"
 					then
 						return false
 					end
@@ -228,11 +231,11 @@ return {
 		dependencies = { "nvim-lspconfig" },
 		config = function()
 			require("lspconfig").vtsls.setup({
-        -- Add preferences here if needed
-        -- check tabbing perhaps
-        -- init_options = {
-        --   preferences = {}
-        -- }
+				-- Add preferences here if needed
+				-- check tabbing perhaps
+				-- init_options = {
+				--   preferences = {}
+				-- }
 				on_attach = function(client, bufnr)
 					local opts = { noremap = true, silent = true }
 					local buf_keymap = vim.api.nvim_buf_set_keymap

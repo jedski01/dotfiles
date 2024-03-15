@@ -1,6 +1,6 @@
 function Config()
 	local actions = require("telescope.actions")
-	local trouble = require("trouble.providers.telescope")
+	local trouble = require("trouble")
   local telescope_actions = require("telescope.actions")
 
 	local function send_to_quickfix(bufnr)
@@ -8,10 +8,6 @@ function Config()
 		vim.cmd([[botright cwindow 40]])
 	end
 
-  -- local function open_with_trouble(bufnr)
-		-- telescope_actions.smart_send_to_qflist(bufnr)
-  --   trouble.open('quickfix')
-  -- end
 
 	require("telescope").setup({
 		defaults = {
@@ -31,11 +27,11 @@ function Config()
 					["<C-a>"] = actions.cycle_previewers_next,
 					["<C-s>"] = actions.cycle_previewers_prev,
           ["<C-q>"] = send_to_quickfix,
-					["<C-t>"] = trouble.open_with_trouble,
+					["<C-t>"] = open_with_trouble,
 				},
 				n = {
           ["<C-q>"] = send_to_quickfix,
-					["<C-t>"] = trouble.open_with_trouble,
+					["<C-t>"] = open_with_trouble,
 				},
 			},
 			layout_config = {
@@ -67,7 +63,6 @@ function Config()
 
 	require("telescope").load_extension("fzf")
 	require("telescope").load_extension("dap")
-	require("telescope").load_extension("bookmarks")
 
 	require("telescope").load_extension("live_grep_args")
 
@@ -112,7 +107,7 @@ function Config()
 	vim.keymap.set(
 		"n",
 		"<leader>fb",
-		'<cmd> lua require("telescope.builtin").buffers{ layout_strategy = "vertical", previewer = false, path_display = { "tail" }, show_all_buffers = false }<CR>',
+		'<cmd> lua require("telescope.builtin").buffers{ layout_strategy = "vertical", previewer = false, path_display = { "tail" } }<CR>',
 		silentopts
 	)
 	vim.keymap.set(

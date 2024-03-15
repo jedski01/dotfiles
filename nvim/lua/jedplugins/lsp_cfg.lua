@@ -20,7 +20,6 @@ return {
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "rafamadriz/friendly-snippets" },
 			{ "onsails/lspkind.nvim" },
-			-- { "nvimtools/none-ls.nvim" },
 			{ "jose-elias-alvarez/null-ls.nvim" },
 			{ "hrsh7th/cmp-path" },
 			{ "windwp/nvim-autopairs" },

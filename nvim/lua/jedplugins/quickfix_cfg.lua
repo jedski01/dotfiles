@@ -1,7 +1,6 @@
 return {
  "ashfinal/qfview.nvim",
+  event = "UIEnter",
   lazy = false,
-  config = function()
-    require("qfview").setup()
-  end
+  config = true
 }

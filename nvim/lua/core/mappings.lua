@@ -12,7 +12,7 @@ vim.api.nvim_set_keymap("n", "<Space>d", ":%bd<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "]q", "<cmd>cnext<CR>zz", silentopts)
 vim.api.nvim_set_keymap("n", "[q", "<cmd>cprev<CR>zz", silentopts)
 vim.api.nvim_set_keymap("n", "qc", "<cmd>cclose<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "qo", "<cmd>copen<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "qo", "<cmd>botright cwindow 40<CR>", silentopts)
 
 -- rename append
 vim.api.nvim_set_keymap("n", "<leader>ra", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", silentopts)

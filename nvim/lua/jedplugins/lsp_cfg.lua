@@ -20,6 +20,7 @@ return {
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "rafamadriz/friendly-snippets" },
 			{ "onsails/lspkind.nvim" },
+			-- { "nvimtools/none-ls.nvim" },
 			{ "jose-elias-alvarez/null-ls.nvim" },
 			{ "hrsh7th/cmp-path" },
 			{ "windwp/nvim-autopairs" },
@@ -43,7 +44,7 @@ return {
 				-- RUST
 				"rust_analyzer",
 				-- C/C++
-				"clangd",
+				-- "clangd",
 				-- Bash
 				"bashls",
 			})
@@ -62,9 +63,10 @@ return {
 			lspzero.setup_nvim_cmp({
 				mapping = cmp_mappings,
 				sources = {
-					{ name = "nvim_lsp", max_item_count = 20, keyword_length = 2 },
-					{ name = "luasnip", max_item_count = 20, keyword_length = 2 },
-					{ name = "path", max_item_count = 20 },
+					{ name = "nvim_lsp" },
+					-- { name = "nvim_lsp", max_item_count = 20, keyword_length = 2 },
+					-- { name = "luasnip", max_item_count = 20, keyword_length = 2 },
+					{ name = "path" },
 				},
 			})
 			require("luasnip.loaders.from_vscode").lazy_load()
@@ -87,32 +89,43 @@ return {
 					timeout_ms = 10000,
 				},
 				servers = {
-					["null-ls"] = { "javascript", "typescript", "lua", "html", "css", "scss", "json", "c" },
+					["null-ls"] = { "javascript", "typescript", "lua", "html", "css", "scss", "json" },
 				},
 			})
 
-			require("lspconfig").clangd.setup({
-				on_init = function(client)
-					client.server_capabilities.semanticTokensProvider = nil
-				end,
-			})
+			-- require("lspconfig").clangd.setup({
+			-- 	on_init = function(client)
+			-- 		client.server_capabilities.semanticTokensProvider = nil
+			-- 	end,
+			-- })
 
+      require("lspconfig").ccls.setup {}
 			lspzero.setup()
 
+			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+			end
 			-- Override capabilities for clangd to fix offset encoding warning
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities.offsetEncoding = { "utf-16" }
+			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+			-- capabilities.offsetEncoding = { "utf-16" }
 
 			-- Setup cmp kind after lspzero
 			cmp.setup({
 				enabled = function()
+					local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+					if buftype == "prompt" then
+						return false
+					end
+
 					local context = require("cmp.config.context")
 					local buftype = vim.api.nvim_buf_get_option(0, "buftype")
 					if
 						context.in_treesitter_capture("comment") == true
 						or context.in_syntax_group("Comment")
-						or context.in_treesitter_capture("string")
-						or context.in_treesitter_capture("string.regex")
+						-- or context.in_treesitter_capture("string")
+						-- or context.in_treesitter_capture("string.regex")
 						or buftype == "prompt"
 					then
 						return false
@@ -165,10 +178,14 @@ return {
 				end,
 				sources = {
 					-- formatters
+					-- null_ls.builtins.formatting.deno_fmt,
+					-- null_ls.builtins.formatting.prettier.with({
+					-- 	disabled_filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+					-- }), -- use deno instead
 					null_ls.builtins.formatting.prettier_d_slim,
 					null_ls.builtins.formatting.eslint_d,
 					null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.clang_format,
+					-- null_ls.builtins.formatting.clang_format,
 					null_ls.builtins.diagnostics.eslint_d,
 					null_ls.builtins.code_actions.eslint_d,
 				},
@@ -232,10 +249,17 @@ return {
 		config = function()
 			require("lspconfig").vtsls.setup({
 				-- Add preferences here if needed
-				-- check tabbing perhaps
-				-- init_options = {
-				--   preferences = {}
-				-- }
+				init_options = {
+					preferences = {
+						importModuleSpecifier = "project-relative",
+					},
+					typescript = {
+						format = {
+							convertTabsToSpaces = true,
+							indentSize = 2,
+						},
+					},
+				},
 				on_attach = function(client, bufnr)
 					local opts = { noremap = true, silent = true }
 					local buf_keymap = vim.api.nvim_buf_set_keymap
@@ -246,6 +270,9 @@ return {
 					buf_keymap(bufnr, "n", "<leader>tmi", ":VtsExec add_missing_imports<CR>", opts)
 				end,
 			})
+			local silentopts = { noremap = true, silent = true }
+			vim.api.nvim_set_keymap("n", "<leader>trs", ":VtsExec restart_tsserver<CR>", silentopts)
+			vim.api.nvim_set_keymap("n", "<leader>trc", ":VtsExec goto_project_config<CR>", silentopts)
 		end,
 	},
 }

@@ -1,9 +1,21 @@
 function Config()
 	local actions = require("telescope.actions")
+	local trouble = require("trouble.providers.telescope")
+  local telescope_actions = require("telescope.actions")
+
+	local function send_to_quickfix(bufnr)
+		telescope_actions.smart_send_to_qflist(bufnr)
+		vim.cmd([[botright cwindow 40]])
+	end
+
+  -- local function open_with_trouble(bufnr)
+		-- telescope_actions.smart_send_to_qflist(bufnr)
+  --   trouble.open('quickfix')
+  -- end
 
 	require("telescope").setup({
 		defaults = {
-      sort_mru = true,
+			sort_mru = true,
 			path_display = { "truncate" },
 			file_ignore_patterns = { "node%_modules/.*" },
 			sorting_strategy = "ascending",
@@ -16,12 +28,20 @@ function Config()
 					["<C-j>"] = actions.move_selection_next,
 					["<C-[>"] = actions.close,
 					["<C-w>"] = actions.send_selected_to_qflist + actions.open_qflist,
+					["<C-a>"] = actions.cycle_previewers_next,
+					["<C-s>"] = actions.cycle_previewers_prev,
+          ["<C-q>"] = send_to_quickfix,
+					["<C-t>"] = trouble.open_with_trouble,
+				},
+				n = {
+          ["<C-q>"] = send_to_quickfix,
+					["<C-t>"] = trouble.open_with_trouble,
 				},
 			},
 			layout_config = {
 				horizontal = {
 					prompt_position = "top",
-					preview_width = 0.50,
+					preview_width = 0.45,
 				},
 				vertical = {
 					mirror = true,
@@ -29,7 +49,7 @@ function Config()
 					width = 0.5,
 					height = 0.5,
 				},
-				width = 0.7,
+				width = 0.85,
 			},
 		},
 		extensions = {
@@ -47,6 +67,8 @@ function Config()
 
 	require("telescope").load_extension("fzf")
 	require("telescope").load_extension("dap")
+	require("telescope").load_extension("bookmarks")
+
 	require("telescope").load_extension("live_grep_args")
 
 	-- KEY BINDINGS
@@ -90,7 +112,19 @@ function Config()
 	vim.keymap.set(
 		"n",
 		"<leader>fb",
-		'<cmd> lua require("telescope.builtin").buffers{ layout_strategy = "vertical", previewer = false }<CR>',
+		'<cmd> lua require("telescope.builtin").buffers{ layout_strategy = "vertical", previewer = false, path_display = { "tail" }, show_all_buffers = false }<CR>',
+		silentopts
+	)
+	vim.keymap.set(
+		"n",
+		"<leader>fiz",
+		'<cmd> lua require("telescope.builtin").current_buffer_fuzzy_find{}<CR>',
+		silentopts
+	)
+	vim.keymap.set(
+		"n",
+		"<leader>fib",
+		'<cmd> lua require("telescope.builtin").current_buffer_fuzzy_find{ fuzzy = false }<CR>',
 		silentopts
 	)
 	vim.keymap.set("n", "<leader>fs", builtin.grep_string, silentopts)
@@ -115,9 +149,9 @@ end
 return {
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.1",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
+      "tomasky/bookmarks.nvim",
 			"nvim-telescope/telescope-live-grep-args.nvim",
 			{ "nvim-telescope/telescope-dap.nvim", dependencies = { "mfussenegger/nvim-dap" } },
 			{

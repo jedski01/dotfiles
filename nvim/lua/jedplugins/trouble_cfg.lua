@@ -2,21 +2,35 @@ return {
 	"folke/trouble.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
+    local trouble = require("trouble");
+
+    trouble.setup{
+      height = 40
+    }
 		vim.keymap.set("n", "<leader>xx", function()
-			require("trouble").open()
+			trouble.open()
+		end)
+		vim.keymap.set("n", "<leader>xc", function()
+			trouble.close()
 		end)
 		vim.keymap.set("n", "<leader>xw", function()
-			require("trouble").open("workspace_diagnostics")
+			trouble.open("workspace_diagnostics")
 		end)
 		vim.keymap.set("n", "<leader>xd", function()
-			require("trouble").open("document_diagnostics")
+			trouble.open("document_diagnostics")
 		end)
 		vim.keymap.set("n", "<leader>xq", function()
-			require("trouble").open("quickfix")
+			trouble.open("quickfix")
 		end)
 		vim.keymap.set("n", "<leader>xl", function()
-			require("trouble").open("loclist")
+			trouble.open("loclist")
 		end)
+    vim.keymap.set("n", "[x", function()
+      trouble.previous({ skip_groups = true, jump = true })
+    end)
+    vim.keymap.set("n", "]x", function()
+      trouble.next({ skip_groups = true, jump = true })
+    end)
 		-- vim.keymap.set("n", "gR", function()
 		-- 	require("trouble").open("lsp_references")
 		-- end)

@@ -1,6 +1,7 @@
 return {
   "folke/flash.nvim",
   event = "VeryLazy",
+  enabled = false,
   opts = {
     search = {
       multi_window = false,
@@ -16,7 +17,7 @@ return {
       }
     },
     treesitter_search = {
-      multi_windows = false
+      multi_window = false
     }
   },
   -- stylua: ignore

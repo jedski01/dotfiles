@@ -1,7 +1,6 @@
 return {
 	{
 		"VonHeikemen/lsp-zero.nvim",
-		branch = "v2.x",
 		dependencies = {
 			-- LSP Support
 			{ "neovim/nvim-lspconfig" }, -- Required
@@ -20,98 +19,59 @@ return {
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "rafamadriz/friendly-snippets" },
 			{ "onsails/lspkind.nvim" },
-			{ "jose-elias-alvarez/null-ls.nvim" },
 			{ "hrsh7th/cmp-path" },
 			{ "windwp/nvim-autopairs" },
+			{ "ranjithshegde/ccls.nvim" },
 		},
 		config = function()
-			local lspzero = require("lsp-zero")
+			-- Add cmp_nvim_lsp capabilities settings to lspconfig
+			-- This should be executed before you configure any language server
+			local lspconfig_defaults = require("lspconfig").util.default_config
+			lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+				"force",
+				lspconfig_defaults.capabilities,
+				require("cmp_nvim_lsp").default_capabilities()
+			)
 
-			lspzero.preset("recommended")
+			-- This is where you enable features that only work
+			-- if there is a language server active in the file
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(event)
+					local opts = { buffer = event.buf }
 
-			lspzero.ensure_installed({
-				-- WEBDEV
-				-- "tsserver",
-				"vtsls",
-				"angularls",
-				"cssls",
-				"html",
-				"jsonls",
-				-- "eslint",
-				-- LUA
-				"lua_ls",
-				-- RUST
-				"rust_analyzer",
-				-- C/C++
-				-- "clangd",
-				-- Bash
-				"bashls",
+					vim.keymap.set("n", "gd", "<cmd> lua vim.lsp.buf.definition()<CR>", opts)
+					vim.keymap.set("n", "gD", "<cmd> lua vim.lsp.buf.declaration()<CR>", opts)
+					vim.keymap.set("n", "K", "<cmd> lua vim.lsp.buf.hover()<CR>", opts)
+					vim.keymap.set("n", "[d", "<cmd> lua vim.diagnostic.goto_prev()<CR>", opts)
+					vim.keymap.set("n", "]d", "<cmd> lua vim.diagnostic.goto_next()<CR>", opts)
+					vim.keymap.set("n", "<leader>lr", "<cmd> lua vim.lsp.buf.rename()<CR>", opts)
+					vim.keymap.set("n", "<space>s", "<cmd> lua vim.diagnostic.open_float()<CR>", opts)
+					vim.keymap.set("n", "<leader>ca", "<cmd> lua vim.lsp.buf.code_action()<CR>", opts)
+					vim.keymap.set("n", "<space>l", ":EslintFixAll<CR>", opts)
+				end,
+			})
+			require("mason").setup({})
+			local ensure_installed = { "rust_analyzer", "angularls", "html", "jsonls", "lua_ls", "bashls", "eslint" }
+			require("mason-lspconfig").setup({
+				ensure_installed = ensure_installed,
 			})
 
 			local cmp = require("cmp")
 			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 			local cmp_select = { behavior = cmp.SelectBehavior.Select }
-			local cmp_mappings = lspzero.defaults.cmp_mappings({
-				["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
-				["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
-				["<CR>"] = cmp.mapping.confirm({ select = true }),
-				["<C-Space>"] = cmp.mapping.complete(),
-			})
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-
-			lspzero.setup_nvim_cmp({
-				mapping = cmp_mappings,
+			cmp.setup({
 				sources = {
 					{ name = "nvim_lsp" },
 					-- { name = "nvim_lsp", max_item_count = 20, keyword_length = 2 },
 					-- { name = "luasnip", max_item_count = 20, keyword_length = 2 },
 					{ name = "path" },
 				},
-			})
-			require("luasnip.loaders.from_vscode").lazy_load()
-
-			lspzero.on_attach(function(client, bufnr)
-				local opts = { noremap = true, silent = true }
-
-				vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd> lua vim.lsp.buf.definition()<CR>", opts)
-				vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd> lua vim.lsp.buf.declaration()<CR>", opts)
-				vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd> lua vim.lsp.buf.hover()<CR>", opts)
-				vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd> lua vim.diagnostic.goto_prev()<CR>", opts)
-				vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd> lua vim.diagnostic.goto_next()<CR>", opts)
-				vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lr", "<cmd> lua vim.lsp.buf.rename()<CR>", opts)
-				vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>e", "<cmd> lua vim.diagnostic.open_float()<CR>", opts)
-			end)
-
-			lspzero.format_mapping("<Space>f", {
-				format_opts = {
-					async = false,
-					timeout_ms = 10000,
-				},
-				servers = {
-					["null-ls"] = { "javascript", "typescript", "lua", "html", "css", "scss", "json" },
-				},
-			})
-
-			-- require("lspconfig").clangd.setup({
-			-- 	on_init = function(client)
-			-- 		client.server_capabilities.semanticTokensProvider = nil
-			-- 	end,
-			-- })
-
-      require("lspconfig").ccls.setup {}
-			lspzero.setup()
-
-			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-			for type, icon in pairs(signs) do
-				local hl = "DiagnosticSign" .. type
-				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-			end
-			-- Override capabilities for clangd to fix offset encoding warning
-			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
-			-- capabilities.offsetEncoding = { "utf-16" }
-
-			-- Setup cmp kind after lspzero
-			cmp.setup({
+				mapping = cmp.mapping.preset.insert({
+					["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
+					["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<C-Space>"] = cmp.mapping.complete(),
+				}),
 				enabled = function()
 					local buftype = vim.api.nvim_buf_get_option(0, "buftype")
 					if buftype == "prompt" then
@@ -167,32 +127,7 @@ return {
 					disallow_fuzzy_matching = true,
 				},
 			})
-
-			local null_ls = require("null-ls")
-			local null_opts = lspzero.build_options("null-ls", {})
-
-			null_ls.setup({
-				on_attach = function(client, bufnr)
-					null_opts.on_attach(client, bufnr)
-				end,
-				sources = {
-					-- formatters
-					-- null_ls.builtins.formatting.deno_fmt,
-					-- null_ls.builtins.formatting.prettier.with({
-					-- 	disabled_filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-					-- }), -- use deno instead
-					null_ls.builtins.formatting.prettier_d_slim,
-					null_ls.builtins.formatting.eslint_d,
-					null_ls.builtins.formatting.stylua,
-					-- null_ls.builtins.formatting.clang_format,
-					null_ls.builtins.diagnostics.eslint_d,
-					null_ls.builtins.code_actions.eslint_d,
-				},
-			})
-
-			vim.diagnostic.config({
-				virtual_text = false,
-			})
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 			local ls = require("luasnip")
 			local snip = ls.snippet
@@ -234,44 +169,25 @@ return {
 
 			keymap("i", "<c-j>", "<cmd> lua require'luasnip'.jump(1)<CR>", opts)
 			keymap("i", "<c-k>", "<cmd> lua require'luasnip'.jump(-1)<CR>", opts)
-		end,
-	},
-	{
-		"yioneko/nvim-vtsls",
-		ft = {
-			"javascript",
-			"javascriptreact",
-			"typescript",
-			"typescriptreact",
-		},
-		dependencies = { "nvim-lspconfig" },
-		config = function()
-			require("lspconfig").vtsls.setup({
-				-- Add preferences here if needed
-				init_options = {
-					preferences = {
-						importModuleSpecifier = "project-relative",
-					},
-					typescript = {
-						format = {
-							convertTabsToSpaces = true,
-							indentSize = 2,
-						},
-					},
-				},
-				on_attach = function(client, bufnr)
-					local opts = { noremap = true, silent = true }
-					local buf_keymap = vim.api.nvim_buf_set_keymap
-					buf_keymap(bufnr, "n", "<leader>toi", ":VtsExec organize_imports<CR>", opts)
-					buf_keymap(bufnr, "n", "<leader>tsi", ":VtsExec sort_imports<CR>", opts)
-					buf_keymap(bufnr, "n", "<leader>tru", ":VtsExec remove_unused<CR>", opts)
-					buf_keymap(bufnr, "n", "<leader>tfa", ":VtsExec fix_all<CR>", opts)
-					buf_keymap(bufnr, "n", "<leader>tmi", ":VtsExec add_missing_imports<CR>", opts)
-				end,
+
+			require("luasnip.loaders.from_vscode").lazy_load()
+			require("ccls").setup({ lsp = { use_defaults = true } })
+
+			-- load languages
+			for i, v in ipairs(ensure_installed) do
+				require("lspconfig")[v].setup({})
+			end
+
+			-- Additional settings
+			vim.api.nvim_set_keymap("n", "<space>e", ":EslintFixAll<CR>", { noremap = true, silent = true })
+			vim.diagnostic.config({
+				virtual_text = false,
 			})
-			local silentopts = { noremap = true, silent = true }
-			vim.api.nvim_set_keymap("n", "<leader>trs", ":VtsExec restart_tsserver<CR>", silentopts)
-			vim.api.nvim_set_keymap("n", "<leader>trc", ":VtsExec goto_project_config<CR>", silentopts)
+			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+			end
 		end,
 	},
 }

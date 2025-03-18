@@ -41,6 +41,13 @@ create_if_needed_and_attach() {
   session_path=$1
   session_name="$(basename "$session_path" | tr . - )"
 
+  branch_name="$(git rev-parse --abbrev-ref HEAD)"
+  if [ $? -eq 0 ]; then
+    # use the current branch name
+    session_name=$branch_name
+  fi
+
+  echo "Creating session" $session_name
   if not_in_tmux; then
     tmux new-session -As "$session_name" -c "$session_path"
   else

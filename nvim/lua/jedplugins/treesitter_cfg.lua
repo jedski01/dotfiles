@@ -22,7 +22,7 @@ return {
 				},
 				indent = {
 					enable = true,
-					disable = { "c" },
+					disable = { "c", "json" },
 				},
 				autotag = {
 					enable = true,

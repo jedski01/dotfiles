@@ -59,6 +59,7 @@ return {
 						return vim.fn.input("Address: ")
 					end,
 					sourceMaps = true,
+<<<<<<< HEAD
 					localRoot = "${workspaceFolder}/migadmin/pkg/node-server/src",
           rootPath = "${workspaceFolder}/migadmin/pkg/node-server/src",
           resolveSourceMapLocations = {"${workspaceFolder}/.build/node-scripts/", "!**/node_modules/**"},
@@ -66,6 +67,17 @@ return {
           outFiles = {
             "${workspaceFolder}/.build/node-scripts/*.js"
           }
+=======
+          protocol = "inspector",
+					localRoot = "${workspaceFolder}",
+          resolveSourceMapLocations = {"${workspaceFolder}/.build/node-scripts/", "!**/node_modules/**"},
+          remoteRoot = "/node-scripts/",
+          outDir = "${workspaceFolder}/.build/node-scripts",
+          trace = "sm"
+          -- outFiles = {
+          --   "${workspaceFolder}/.build/node-scripts/*.js"
+          -- }
+>>>>>>> d231715 (Update configs)
 				},
 			}
 		end

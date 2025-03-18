@@ -5,7 +5,7 @@ vim.api.nvim_set_keymap("n", "<Space>h", ":bf<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>k", ":bn<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>j", ":bp<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>l", ":bl<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>;", ":bp<bar>sp<bar>bn<bar>bd<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<Space>;", ":bd<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<Space>d", ":%bd<CR>", silentopts)
 
 -- Quickfix shortcuts
@@ -31,7 +31,7 @@ vim.api.nvim_set_keymap("n", "to", ":tabonly<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "ts", ":tab split<CR>", silentopts)
 
 -- code action
-vim.api.nvim_set_keymap("n", "<leader>ca", "<cmd>CodeActionMenu<CR>", silentopts)
+-- vim.api.nvim_set_keymap("n", "<leader>ca", "<cmd>CodeActionMenu<CR>", silentopts)
 
 -- quick save and close
 vim.api.nvim_set_keymap("n", "<leader>s", ":w<CR>", silentopts)
@@ -39,6 +39,10 @@ vim.api.nvim_set_keymap("n", "<leader>q", ":x<CR>", silentopts)
 
 -- vim shortcuts
 vim.api.nvim_set_keymap("n", "<leader>gfh", ":G log --follow -p -5 -- %<CR>", silentopts)
+vim.api.nvim_set_keymap("n", "<leader>gfc", ":G log --oneline -- %<CR>", silentopts)
+vim.keymap.set( {"v", "n" }, "<leader>gl", function()
+    vim.cmd("G log --pretty=oneline -L" .. vim.fn.line("v") .. "," .. vim.fn.line(".") .. ":" .. vim.fn.expand("%:p"))
+end, {})
 vim.api.nvim_set_keymap("n", "<leader>gs", ":0G<CR>", silentopts)
 
 -- moar motions
@@ -64,4 +68,3 @@ vim.api.nvim_set_keymap("n", "<C-h>", ":wincmd h<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-j>", ":wincmd j<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-k>", ":wincmd k<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-l>", ":wincmd l<CR>", silentopts)
-

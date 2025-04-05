@@ -51,6 +51,8 @@ vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", silentopts)
 vim.api.nvim_set_keymap("n", "n", "nzzzv", silentopts)
 vim.api.nvim_set_keymap("n", "N", "Nzzzv", silentopts)
 
+vim.api.nvim_set_keymap("n", "L", "J$", silentopts)
+vim.api.nvim_set_keymap("v", "L", "J", silentopts)
 vim.api.nvim_set_keymap("v", "J", ":m '>+1<CR>gv=gv", silentopts)
 vim.api.nvim_set_keymap("v", "K", ":m '<-2<CR>gv=gv", silentopts)
 

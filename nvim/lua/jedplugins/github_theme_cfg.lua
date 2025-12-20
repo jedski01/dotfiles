@@ -7,12 +7,11 @@ return {
     options = {
       dim_inactive = true
     },
-    groups = {
-      all = {
-        BufferLineOffsetSeparator = { fg = 'bg3', bg = 'bg3' },
-      }
-    }
-
+    -- groups = {
+    --   all = {
+    --     BufferLineOffsetSeparator = { fg = 'bg3', bg = 'bg3' },
+    --   }
+    -- }
   },
   config = function()
     vim.cmd("colorscheme github_dark_dimmed")

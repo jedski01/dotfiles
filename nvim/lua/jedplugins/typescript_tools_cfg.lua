@@ -1,6 +1,7 @@
   return {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    enabled = true,
     config = function()
       require("typescript-tools").setup {
 				on_attach = function(client, bufnr)
@@ -13,6 +14,7 @@
           buf_keymap(bufnr, "n", "<leader>tmi", ":TSToolsAddMissingImports<CR>", opts)
           buf_keymap(bufnr, "n", "<leader>trf", ":TSToolsRenameFile<CR>", opts)
           buf_keymap(bufnr, "n", "<leader>tfr", ":TSToolsFieReferences<CR>", opts)
+          buf_keymap(bufnr, "n", "<leader>ca", "<cmd> lua vim.lsp.buf.code_action()<CR>", opts)
         end
       }
     end,

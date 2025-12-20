@@ -7,6 +7,9 @@ return {
 			go_to_source_definition = {
 				fallback = true,
 			},
+			settings = {
+				expose_as_code_action = "all",
+			},
 			server = {
 				on_attach = function(client, bufnr)
 					local opts = { noremap = true, silent = true }

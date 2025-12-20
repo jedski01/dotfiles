@@ -2,7 +2,6 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
-			"windwp/nvim-ts-autotag",
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			-- "nvim-treesitter/nvim-treesitter-context",
 		},
@@ -23,10 +22,6 @@ return {
 				indent = {
 					enable = true,
 					disable = { "c", "json" },
-				},
-				autotag = {
-					enable = true,
-					filetypes = { "html", "xml" },
 				},
 				incremental_selection = {
 					enable = true,

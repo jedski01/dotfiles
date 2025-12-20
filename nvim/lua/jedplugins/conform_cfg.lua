@@ -21,6 +21,7 @@ return {
 			python = { "isort", "black" },
 			javascript = { "prettierd", "prettier", stop_after_first = true },
 			typescript = { "prettierd", "prettier", stop_after_first = true },
+      rust = { "rustfmt", lsp_format = "fallback" }
 		},
 	},
 	init = function()

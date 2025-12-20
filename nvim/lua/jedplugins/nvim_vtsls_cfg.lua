@@ -8,9 +8,8 @@ return	{
 			"typescriptreact",
 		},
 		dependencies = { "nvim-lspconfig" },
-
 		config = function()
-			require("lspconfig").vtsls.setup({
+			vim.lsp.config['vtsls'].setup({
 				on_attach = function(client, bufnr)
 					local opts = { noremap = true, silent = true }
 					local buf_keymap = vim.api.nvim_buf_set_keymap

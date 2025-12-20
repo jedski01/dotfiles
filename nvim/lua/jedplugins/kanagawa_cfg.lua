@@ -4,6 +4,6 @@ return {
   lazy = false,
   enabled = false,
   config = function()
-		vim.cmd("colorscheme kanagawa-dragon")
+		vim.cmd("colorscheme kanagawa-wave")
   end
 }

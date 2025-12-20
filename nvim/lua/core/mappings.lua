@@ -70,3 +70,6 @@ vim.api.nvim_set_keymap("n", "<C-h>", ":wincmd h<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-j>", ":wincmd j<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-k>", ":wincmd k<CR>", silentopts)
 vim.api.nvim_set_keymap("n", "<C-l>", ":wincmd l<CR>", silentopts)
+
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap=true })
+vim.api.nvim_set_keymap("n", "<space>t", ":FloatermToggle<CR>", silentopts)

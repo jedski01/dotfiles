@@ -32,3 +32,36 @@ vim.opt.scrolloff = 10
 vim.opt.cmdheight = 1
 vim.opt.mouse = ""
 -- vim.opt.cmdheight = 0
+
+vim.opt.undofile = true
+vim.opt.undolevels = 10000
+
+vim.o.winborder = "rounded"
+
+vim.opt.clipboard = "unnamedplus"
+
+-- Copy to the system clipboard via OSC 52 so yanks survive tmux/SSH and don't
+-- depend on a (potentially stale) $DISPLAY. Paste stays on the local provider.
+local osc52 = require("vim.ui.clipboard.osc52")
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = osc52.copy("+"),
+    ["*"] = osc52.copy("*"),
+  },
+  paste = {
+    ["+"] = function()
+      return vim.fn.systemlist("xsel -ob")
+    end,
+    ["*"] = function()
+      return vim.fn.systemlist("xsel -op")
+    end,
+  },
+}
+
+vim.opt.updatetime = 300
+vim.opt.confirm = true
+vim.opt.modeline = false
+
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99

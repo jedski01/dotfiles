@@ -1,106 +1,134 @@
 return {
 	"saghen/blink.cmp",
-	build = "cargo +nightly build --release",
-  enabled = false,
-	-- optional: provides snippets for the snippet source
+	version = "1.*",
+	enabled = true,
 	dependencies = {
 		"rafamadriz/friendly-snippets",
-		"onsails/lspkind.nvim",
 	},
-
-	-- use a release tag to download pre-built binaries
-	version = "1.*",
-	-- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-	-- build = 'cargo build --release',
-	-- If you use nix, you can build from source using latest nightly rust with:
-	-- build = 'nix run .#build-plugin',
 
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {
-		-- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-		-- 'super-tab' for mappings similar to vscode (tab to accept)
-		-- 'enter' for enter to accept
-		-- 'none' for no mappings
-		--
-		-- All presets have the following mappings:
-		-- C-space: Open menu or open docs if already open
-		-- C-n/C-p or Up/Down: Select next/previous item
-		-- C-e: Hide menu
-		-- C-k: Toggle signature help (if signature.enabled = true)
-		--
-		-- See :h blink-cmp-config-keymap for defining your own keymap
 		keymap = {
-			-- preset = "default",
 			["<C-j>"] = { "select_next" },
 			["<C-k>"] = { "select_prev" },
 			["<CR>"] = { "select_and_accept", "fallback" },
+			["<C-CR>"] = { "accept", "fallback" },
 		},
-
 		appearance = {
-			-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-			-- Adjusts spacing to ensure icons are aligned
 			nerd_font_variant = "mono",
+			use_nvim_cmp_as_default = true,
 		},
 
-		-- (Default) Only show the documentation popup when manually triggered
 		completion = {
+			accept = {
+				auto_brackets = { enabled = true },
+			},
+			list = {
+				selection = { preselect = true, auto_insert = false },
+			},
+			trigger = {
+				show_in_snippet = false,
+				show_on_trigger_character = true,
+			},
 			documentation = {
 				auto_show = true,
-				auto_show_delay_ms = 250,
-				treesitter_highlighting = true,
+				auto_show_delay_ms = 200,
 				window = { border = "rounded" },
 			},
 			menu = {
 				border = "rounded",
-
-				cmdline_position = function()
-					if vim.g.ui_cmdline_pos ~= nil then
-						local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
-						return { pos[1] - 1, pos[2] }
-					end
-					local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
-					return { vim.o.lines - height, 0 }
-				end,
-
 				draw = {
 					columns = {
-						{ "kind_icon", "label", gap = 1 },
-						{ "kind" },
+						{ "kind_icon", gap = 1 },
+						{ "label", "label_description", gap = 1 },
+						{ "source" },
 					},
 					components = {
 						kind_icon = {
-							text = function(item)
-								local kind = require("lspkind").symbol_map[item.kind] or ""
-								return kind .. " "
+							text = function(ctx)
+								local icons = {
+									Text = "",
+									Method = "󰊕",
+									Function = "󰊕",
+									Constructor = "",
+									Field = "󰇽",
+									Variable = "󰂡",
+									Class = "󰜁",
+									Interface = "",
+									Module = "",
+									Property = "󰜢",
+									Unit = "",
+									Value = "󰎠",
+									Enum = "",
+									Keyword = "󰌋",
+									Snippet = "󰒕",
+									Color = "󰏘",
+									Reference = "",
+									File = "",
+									Folder = "󰉋",
+									EnumMember = "",
+									Constant = "󰏿",
+									Struct = "",
+									Event = "",
+									Operator = "󰆕",
+									TypeParameter = "󰅲",
+								}
+								return icons[ctx.kind] or " "
 							end,
-							highlight = "CmpItemKind",
+							highlight = function(ctx)
+								return "BlinkCmpKind" .. (ctx.kind or "")
+							end,
 						},
 						label = {
 							text = function(item)
 								return item.label
 							end,
-							highlight = "CmpItemAbbr",
+							-- highlight = function(ctx)
+							-- 	local label = ctx.label
+							--
+							-- 	if ctx.deprecated then
+							-- 		return { { { 0, #label }, "BlinkCmpLabelDeprecated" } }
+							-- 	end
+							--
+							-- 	if ctx.type == "snippet" then
+							-- 		return { { { 0, #label }, "BlinkCmpLabelSnippet" } }
+							-- 	end
+							--
+							-- 	local highlights = {}
+							-- 	for _, idx in ipairs(ctx.label_matched_indices or {}) do
+							-- 		table.insert(highlights, { { idx, idx + 1 }, "BlinkCmpLabelMatch" })
+							-- 	end
+							-- 	return highlights
+							-- end,
 						},
-						kind = {
+						label_description = {
 							text = function(item)
-								return item.kind
+								return item.label_description or ""
 							end,
-							highlight = "CmpItemKind",
+							highlight = "BlinkCmpLabelDescription",
+						},
+						source = {
+							text = function(ctx)
+								local source_name = ctx.source_name or "LSP"
+								local formatted = string.sub(source_name, 1, 3):lower()
+								return "[" .. formatted .. "]"
+							end,
+							highlight = "BlinkCmpSource",
 						},
 					},
 				},
 			},
 		},
 
-		-- Default list of enabled providers defined so that you can extend it
-		-- elsewhere in your config, without redefining it, due to `opts_extend`
+		signature = { enabled = true },
+
 		sources = {
-			default = { "lsp", "path" },
+			default = { "lsp", "path", "snippets", "buffer" },
 			providers = {
 				lsp = {
-					min_keyword_length = 1, -- Number of characters to trigger porvider
-					score_offset = 0, -- Boost/penalize the score of the items
+					min_keyword_length = 0,
+					score_offset = 0,
 				},
 				path = {
 					min_keyword_length = 0,
@@ -109,17 +137,12 @@ return {
 					min_keyword_length = 2,
 				},
 				buffer = {
-					min_keyword_length = 5,
+					min_keyword_length = 3,
 					max_items = 5,
 				},
 			},
 		},
 
-		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-		-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-		-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-		--
-		-- See the fuzzy documentation for more information
 		fuzzy = { implementation = "rust" },
 	},
 	opts_extend = { "sources.default" },

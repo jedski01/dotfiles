@@ -1,33 +1,77 @@
 return {
-	"mxsdev/nvim-dap-vscode-js",
-	dependencies = {
+	"mfussenegger/nvim-dap",
+	ft = { "typescript", "javascript" },
+	keys = {
 		{
-			"mfussenegger/nvim-dap",
-			dependencies = "nvim-neotest/nvim-nio",
+			"<F7>",
+			function()
+				require("dap").toggle_breakpoint()
+			end,
+			desc = "Toggle breakpoint",
 		},
 		{
-			"microsoft/vscode-js-debug",
-			lazy = true,
-			build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+			"<F8>",
+			function()
+				require("dap").continue()
+			end,
+			desc = "Continue debugging",
+		},
+		{
+			"<F10>",
+			function()
+				require("dap").step_over()
+			end,
+			desc = "Step over",
+		},
+		{
+			"<F11>",
+			function()
+				require("dap").step_into()
+			end,
+			desc = "Step into",
+		},
+		{
+			"<F12>",
+			function()
+				require("dap").step_out()
+			end,
+			desc = "Step out",
+		},
+		{
+			"<leader>dr",
+			function()
+				require("dap").repl.toggle()
+			end,
+			desc = "Toggle debug REPL",
+		},
+		{
+			"<leader>dw",
+			function()
+				require("dap.ui.widgets").hover()
+			end,
+			desc = "Debug hover widget",
 		},
 	},
 	config = function()
 		local dap = require("dap")
 
-		require("dap-vscode-js").setup({
-			debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
-			adapters = {
-				"pwa-node",
-				"pwa-chrome",
-				"node-terminal",
-			},
-		})
+		for _, adapter in ipairs({ "pwa-node" }) do
+			dap.adapters[adapter] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = vim.fn.stdpath("data") .. "/mason/bin/js-debug-adapter",
+					args = { "${port}" },
+				},
+			}
+		end
 
-		dap.set_log_level("TRACE")
+		vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError" })
+		vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticWarn", linehl = "CursorLine" })
 
 		for _, language in ipairs({ "typescript", "javascript" }) do
 			dap.configurations[language] = {
-				-- debug single nodejs files
 				{
 					type = "pwa-node",
 					request = "launch",
@@ -37,7 +81,6 @@ return {
 					sourceMaps = true,
 					protocol = "inspector",
 				},
-				-- debug nodejs proceses (make sure to add --inspect when you run the process)
 				{
 					type = "pwa-node",
 					request = "attach",
@@ -47,7 +90,6 @@ return {
 					cwd = "${workspaceFolder}",
 					protocol = "inspector",
 				},
-				-- Same as above, but this is for remote debugging
 				{
 					name = "Remote Fortigate Node",
 					type = "pwa-node",
@@ -65,9 +107,6 @@ return {
 					remoteRoot = "/node-scripts/",
 					outDir = "${workspaceFolder}/.build/node-scripts",
 					trace = "sm",
-					-- outFiles = {
-					--   "${workspaceFolder}/.build/node-scripts/*.js"
-					-- }
 				},
 			}
 		end

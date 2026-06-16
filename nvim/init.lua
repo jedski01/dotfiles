@@ -3,7 +3,7 @@ vim.g.loaded_netrwPlugin = 1
 
 require('core')
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
@@ -14,10 +14,18 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp:append(vim.fn.stdpath("data") .. "/site")
 require("lazy").setup({
   spec = {
     { import = 'jedplugins' },
     { import = 'jedplugins.lsp' }
+  },
+  install = { colorscheme = { 'monokai-pro' } },
+  change_detection = { notify = false },
+  performance = {
+    rtp = {
+      disabled_plugins = { 'gzip', 'tarPlugin', 'zipPlugin', 'tohtml', 'tutor' }
+    }
   }
 })
 require("lsp")

@@ -3,6 +3,7 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
 	},
+	event = "VeryLazy",
 	config = function()
 		require("lualine").setup({
 			sections = {
@@ -15,7 +16,7 @@ return {
 				lualine_x = {
 					{
 						"diagnostics",
-						sources = { "nvim_lsp", "nvim_diagnostic" },
+						sources = { "nvim_diagnostic" },
 						symbols = { error = " ", warn = " ", info = " ", hint = "󱤅 ", other = "󰠠 " },
 						diagnostics_color = {
 							error = { fg = "#ff0000" },
@@ -40,7 +41,7 @@ return {
 				},
 			},
 			options = {
-				theme = "ayu",
+				theme = "monokai-pro",
 				-- section_separators = { left = " ", right = " " },
 				-- component_separators = { left = "", right = "" },
 				globalstatus = true,

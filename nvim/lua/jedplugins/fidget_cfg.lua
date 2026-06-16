@@ -1,11 +1,12 @@
 return {
 	"j-hui/fidget.nvim",
   -- enabled = false,
-	config = function()
-		require("fidget").setup({
+	event = "VeryLazy",
+	opts = {
+		notification = {
 			window = {
-				blend = 0,
+				winblend = 0,
 			},
-		})
-	end,
+		},
+	},
 }

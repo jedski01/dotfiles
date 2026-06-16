@@ -1,9 +1,7 @@
 return {
-    'numToStr/Comment.nvim',
-    enabled = true,
-    opts = {
-      -- padding = true
-        -- add any options here
+    {
+        "folke/ts-comments.nvim",
+        opts = {},
+        event = "VeryLazy",
     },
-    lazy = false,
 }

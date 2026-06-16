@@ -1,4 +1,19 @@
--- vim.lsp.enable("ts_ls")
+-- Apply blink.cmp capabilities to all LSP servers
+vim.lsp.config('*', {
+	capabilities = require('blink.cmp').get_lsp_capabilities(),
+})
+
+-- Override angularls config (vim.lsp.config() has higher priority than lsp/*.lua files)
+vim.lsp.config('angularls', {
+	filetypes = { 'typescript', 'html', 'htmlangular', 'typescriptreact', 'typescript.tsx' },
+	root_markers = { 'angular.json', 'nx.json' },
+})
+
+vim.lsp.config('clangd', {
+	cmd = { 'clangd', '--log=error' },
+})
+
+-- Enable LSP servers
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("angularls")
 vim.lsp.enable("html")
@@ -8,56 +23,93 @@ vim.lsp.enable("clangd")
 vim.lsp.enable("cssls")
 vim.lsp.enable("rust_analyzer")
 vim.lsp.enable("gopls")
+vim.lsp.enable("vtsls")
 
--- typescript custom commands
---
--- local function organize_ts_imports()
--- 	local params = {
--- 		command = "_typescript.organizeImports",
--- 		arguments = { vim.api.nvim_buf_get_name(0) },
--- 		title = "Orgnize TS Imports",
--- 	}
--- 	vim.lsp.buf.execute_command(params)
--- end
---
--- local function add_missing_imports()
--- 	vim.lsp.buf.code_action({ context = { only = { "source.addMissingImports.ts" } }, apply = true })
--- end
---
--- local function remove_unused_imports()
--- 	vim.lsp.buf.code_action({ context = { only = { "source.removeUnused.ts" } }, apply = true })
--- end
---
--- vim.api.nvim_create_user_command("OrganizeTSImports", organize_ts_imports, { desc = "Organize TS Imports" })
--- vim.api.nvim_create_user_command("AddMissingTSImports", add_missing_imports, { desc = "Add Missing TS Imports" })
--- vim.api.nvim_create_user_command("RemoveUnusedTSImports", remove_unused_imports, { desc = "Remove Unused TS Imports" })
+-- Monokai Pro themed float highlights for hover/diagnostics
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#2d2a2e", fg = "#c1c0c0" })
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = "#2d2a2e", fg = "#ab9df2" })
+vim.api.nvim_set_hl(0, "FloatTitle", { bg = "#2d2a2e", fg = "#ff6188", bold = true })
 
+local hover_opts = {
+	max_width = 80,
+	max_height = 20,
+	wrap = true,
+	title = " 󰋽 Docs ",
+	title_pos = "center",
+	focusable = true,
+	close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+}
+
+local diag_opts = {
+	max_width = 80,
+	wrap = true,
+	title = " 󰀪 Diagnostics ",
+	title_pos = "center",
+	source = "if_many",
+	header = "",
+	prefix = " ",
+}
+
+vim.diagnostic.config({
+	severity_sort = true,
+	virtual_text = false,
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "\u{f057}",
+			[vim.diagnostic.severity.WARN] = "\u{f071}",
+			[vim.diagnostic.severity.INFO] = "\u{f05a}",
+			[vim.diagnostic.severity.HINT] = "\u{f0eb}",
+		},
+	},
+	float = diag_opts,
+})
+
+-- LSP attach keybindings
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(event)
 		local opts = { buffer = event.buf }
 
-		vim.keymap.set("n", "gd", "<cmd> lua vim.lsp.buf.definition()<CR>", opts)
-		vim.keymap.set("n", "gD", "<cmd> lua vim.lsp.buf.declaration()<CR>", opts)
-		vim.keymap.set(
-			"n",
-			"K",
-			"<cmd> lua vim.lsp.buf.hover({ border = { '╔', '═' ,'╗', '║', '╝', '═', '╚', '║' }})<CR>",
-			opts
-		)
-		vim.keymap.set("n", "[d", "<cmd> lua vim.diagnostic.goto_prev()<CR>", opts)
-		vim.keymap.set("n", "]d", "<cmd> lua vim.diagnostic.goto_next()<CR>", opts)
-		vim.keymap.set("n", "<leader>lr", "<cmd> lua vim.lsp.buf.rename()<CR>", opts)
-		vim.keymap.set(
-			"n",
-			"<space>s",
-			"<cmd> lua vim.diagnostic.open_float({ border = { '╔', '═' ,'╗', '║', '╝', '═', '╚', '║' }})<CR>",
-			opts
-		)
-		vim.keymap.set("n", "<leader>ca", "<cmd> lua vim.lsp.buf.code_action()<CR>", opts)
-		vim.keymap.set("n", "<space>l", ":LspEslintFixAll<CR>", opts)
-		-- typescript specific commands
-		-- vim.keymap.set("n", "<leader>toi", ":OrganizeTSImports<CR>", opts)
-		-- vim.keymap.set("n", "<leader>tmi", ":AddMissingTSImports<CR>", opts)
-		-- vim.keymap.set("n", "<leader>tru", ":RemoveUnusedTSImports<CR>", opts)
+		vim.keymap.set("n", "gd", function()
+			vim.lsp.buf.definition()
+		end, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+		vim.keymap.set("n", "gD", function()
+			vim.lsp.buf.declaration()
+		end, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
+		vim.keymap.set("n", "K", function()
+			vim.lsp.buf.hover(hover_opts)
+		end, vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
+		vim.keymap.set("n", "[d", function()
+			vim.diagnostic.jump({
+				count = -vim.v.count1,
+				on_jump = function(_, bufnr)
+					vim.diagnostic.open_float(vim.tbl_extend("keep", diag_opts, { bufnr = bufnr, scope = "cursor", focus = false }))
+				end,
+			})
+		end, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+		vim.keymap.set("n", "]d", function()
+			vim.diagnostic.jump({
+				count = vim.v.count1,
+				on_jump = function(_, bufnr)
+					vim.diagnostic.open_float(vim.tbl_extend("keep", diag_opts, { bufnr = bufnr, scope = "cursor", focus = false }))
+				end,
+			})
+		end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+		vim.keymap.set("n", "<leader>lr", function()
+			vim.lsp.buf.rename()
+		end, vim.tbl_extend("force", opts, { desc = "LSP rename" }))
+		vim.keymap.set("n", "<space>s", function()
+			vim.diagnostic.open_float(diag_opts)
+		end, vim.tbl_extend("force", opts, { desc = "Show line diagnostics" }))
+		vim.keymap.set("n", "<leader>ca", function()
+			vim.lsp.buf.code_action()
+		end, vim.tbl_extend("force", opts, { desc = "Code action" }))
+		vim.keymap.set("n", "<leader>th", function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }), { bufnr = event.buf })
+		end, vim.tbl_extend("force", opts, { desc = "Toggle inlay hints" }))
+
+		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		if client and client.name == "eslint" then
+			vim.keymap.set("n", "<space>el", ":LspEslintFixAll<CR>", vim.tbl_extend("force", opts, { desc = "ESLint fix all" }))
+		end
 	end,
 })

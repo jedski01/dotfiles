@@ -1,75 +1,66 @@
-local silentopts = { noremap = true, silent = true }
+local function opts(desc)
+    return { noremap = true, silent = true, desc = desc }
+end
 
 -- Buffer navigation
-vim.api.nvim_set_keymap("n", "<Space>h", ":bf<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>k", ":bn<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>j", ":bp<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>l", ":bl<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>;", ":bd<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<Space>d", ":%bd<CR>", silentopts)
+vim.keymap.set("n", "<Space>h", ":bf<CR>", opts("First buffer"))
+vim.keymap.set("n", "<Space>k", ":bn<CR>", opts("Next buffer"))
+vim.keymap.set("n", "<Space>j", ":bp<CR>", opts("Previous buffer"))
+vim.keymap.set("n", "<Space>l", ":bl<CR>", opts("Last buffer"))
+vim.keymap.set("n", "<Space>;", ":bd<CR>", opts("Delete buffer"))
+vim.keymap.set("n", "<Space>d", ":%bd<CR>", opts("Delete all buffers"))
 
 -- Quickfix shortcuts
-vim.api.nvim_set_keymap("n", "]q", "<cmd>cnext<CR>zz", silentopts)
-vim.api.nvim_set_keymap("n", "[q", "<cmd>cprev<CR>zz", silentopts)
-vim.api.nvim_set_keymap("n", "qc", "<cmd>cclose<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "qo", "<cmd>botright cwindow 40<CR>", silentopts)
+vim.keymap.set("n", "]q", "<cmd>cnext<CR>zz", opts("Next quickfix entry"))
+vim.keymap.set("n", "[q", "<cmd>cprev<CR>zz", opts("Previous quickfix entry"))
+vim.keymap.set("n", "qc", "<cmd>cclose<CR>", opts("Close quickfix window"))
+vim.keymap.set("n", "qo", "<cmd>botright cwindow 40<CR>", opts("Open quickfix window"))
 
 -- rename append
-vim.api.nvim_set_keymap("n", "<leader>ra", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", silentopts)
+vim.keymap.set("n", "<leader>ra", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", opts("Rename word (append)"))
 -- rename replace
-vim.api.nvim_set_keymap("n", "<leader>rr", ":%s/\\<<C-r><C-w>\\>//gI<Left><Left><Left>", silentopts)
+vim.keymap.set("n", "<leader>rr", ":%s/\\<<C-r><C-w>\\>//gI<Left><Left><Left>", opts("Rename word (replace)"))
 
 -- tabs
-vim.api.nvim_set_keymap("n", "th", ":tabfirst<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "tl", ":tablast<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "tj", ":tabprev<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "tk", ":tabnext<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "tt", ":tabedit<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "td", ":tabclose<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "tn", ":tabnew %<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "to", ":tabonly<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "ts", ":tab split<CR>", silentopts)
-
--- code action
--- vim.api.nvim_set_keymap("n", "<leader>ca", "<cmd>CodeActionMenu<CR>", silentopts)
+vim.keymap.set("n", "th", ":tabfirst<CR>", opts("First tab"))
+vim.keymap.set("n", "tl", ":tablast<CR>", opts("Last tab"))
+vim.keymap.set("n", "tj", ":tabprev<CR>", opts("Previous tab"))
+vim.keymap.set("n", "tk", ":tabnext<CR>", opts("Next tab"))
+vim.keymap.set("n", "tt", ":tabedit<CR>", opts("New tab"))
+vim.keymap.set("n", "td", ":tabclose<CR>", opts("Close tab"))
+vim.keymap.set("n", "tn", ":tabnew %<CR>", opts("Open current buffer in new tab"))
+vim.keymap.set("n", "to", ":tabonly<CR>", opts("Close other tabs"))
+vim.keymap.set("n", "ts", ":tab split<CR>", opts("Split current window into new tab"))
 
 -- quick save and close
-vim.api.nvim_set_keymap("n", "<leader>s", ":w<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<leader>q", ":x<CR>", silentopts)
+vim.keymap.set("n", "<leader>s", ":w<CR>", opts("Save file"))
+vim.keymap.set("n", "<leader>q", ":x<CR>", opts("Save and close window"))
 
--- vim shortcuts
-vim.api.nvim_set_keymap("n", "<leader>gfh", ":G log --follow -p -5 -- %<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<leader>gfc", ":G log --oneline -- %<CR>", silentopts)
-vim.keymap.set( {"v", "n" }, "<leader>gl", function()
+-- vim shortcuts (fugitive)
+vim.keymap.set("n", "<leader>gfc", ":G log --oneline -- %<CR>", opts("Git log for current file"))
+vim.keymap.set({ "v", "n" }, "<leader>gl", function()
     vim.cmd("G log --pretty=oneline -L" .. vim.fn.line("v") .. "," .. vim.fn.line(".") .. ":" .. vim.fn.expand("%:p"))
-end, {})
-vim.api.nvim_set_keymap("n", "<leader>gs", ":0G<CR>", silentopts)
+end, opts("Git log for selected lines"))
 
 -- moar motions
-vim.api.nvim_set_keymap("n", "<C-d>", "<C-d>zz", silentopts)
-vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", silentopts)
-vim.api.nvim_set_keymap("n", "n", "nzzzv", silentopts)
-vim.api.nvim_set_keymap("n", "N", "Nzzzv", silentopts)
+vim.keymap.set("n", "<C-d>", "<C-d>zz", opts("Half page down (centered)"))
+vim.keymap.set("n", "<C-u>", "<C-u>zz", opts("Half page up (centered)"))
+vim.keymap.set("n", "n", "nzzzv", opts("Next search result (centered)"))
+vim.keymap.set("n", "N", "Nzzzv", opts("Previous search result (centered)"))
 
-vim.api.nvim_set_keymap("n", "L", "J$", silentopts)
-vim.api.nvim_set_keymap("v", "L", "J", silentopts)
-vim.api.nvim_set_keymap("v", "J", ":m '>+1<CR>gv=gv", silentopts)
-vim.api.nvim_set_keymap("v", "K", ":m '<-2<CR>gv=gv", silentopts)
+vim.keymap.set("n", "L", "J$", opts("Join line below and jump to end"))
+vim.keymap.set("v", "L", "J", opts("Join selected lines"))
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts("Move selection down"))
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts("Move selection up"))
 
 -- moar copy
-vim.api.nvim_set_keymap("x", "<leader>p", '"_dp', silentopts)
-vim.api.nvim_set_keymap("n", "<leader>y", '"+y', silentopts)
-vim.api.nvim_set_keymap("v", "<leader>y", '"+y', silentopts)
-vim.api.nvim_set_keymap("n", "<leader>Y", '"+Y', silentopts)
+vim.keymap.set("x", "<leader>p", '"_dp', opts("Paste without yanking selection"))
+vim.keymap.set("n", "<leader>y", '"+y', opts("Yank to clipboard"))
+vim.keymap.set("v", "<leader>y", '"+y', opts("Yank to clipboard"))
+vim.keymap.set("n", "<leader>Y", '"+Y', opts("Yank line to clipboard"))
 
 -- NOPE
-vim.api.nvim_set_keymap("n", "Q", "<nop>", silentopts)
+vim.keymap.set("n", "Q", "<nop>", opts("Disable Ex mode"))
 
--- Window navigation
-vim.api.nvim_set_keymap("n", "<C-h>", ":wincmd h<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<C-j>", ":wincmd j<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<C-k>", ":wincmd k<CR>", silentopts)
-vim.api.nvim_set_keymap("n", "<C-l>", ":wincmd l<CR>", silentopts)
-
-vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap=true })
-vim.api.nvim_set_keymap("n", "<space>t", ":FloatermToggle<CR>", silentopts)
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" })
+vim.keymap.set("n", "<space>t", function() require("snacks").terminal.toggle() end, { desc = "Toggle terminal" })

@@ -1,21 +1,19 @@
 return {
 	"softoika/ngswitcher.vim",
-	config = function()
-		local silentopts = { noremap = true, silent = true }
+	keys = {
+		{ "<leader>ac", "<cmd>NgSwitchTS<CR>", silent = true, desc = "Switch to component TS" },
+		{ "<leader>at", "<cmd>NgSwitchHTML<CR>", silent = true, desc = "Switch to template HTML" },
+		{ "<leader>as", "<cmd>NgSwitchCSS<CR>", silent = true, desc = "Switch to stylesheet" },
+		{ "<leader>au", "<cmd>NgSwitchSpec<CR>", silent = true, desc = "Switch to spec file" },
 
-		vim.keymap.set("n", "<leader>ac", "<cmd> NgSwitchTS<CR>", silentopts)
-		vim.keymap.set("n", "<leader>at", "<cmd> NgSwitchHTML<CR>", silentopts)
-		vim.keymap.set("n", "<leader>as", "<cmd> NgSwitchCSS<CR>", silentopts)
-		vim.keymap.set("n", "<leader>au", "<cmd> NgSwitchSpec<CR>", silentopts)
+		{ "<leader>vac", "<cmd>VNgSwitchTS<CR>", silent = true, desc = "Switch to component TS (vsplit)" },
+		{ "<leader>vat", "<cmd>VNgSwitchHTML<CR>", silent = true, desc = "Switch to template HTML (vsplit)" },
+		{ "<leader>vas", "<cmd>VNgSwitchCSS<CR>", silent = true, desc = "Switch to stylesheet (vsplit)" },
+		{ "<leader>vau", "<cmd>VNgSwitchSpec<CR>", silent = true, desc = "Switch to spec file (vsplit)" },
 
-		vim.keymap.set("n", "<leader>vac", "<cmd> VNgSwitchTS<CR>", silentopts)
-		vim.keymap.set("n", "<leader>vat", "<cmd> VNgSwitchHTML<CR>", silentopts)
-		vim.keymap.set("n", "<leader>vas", "<cmd> VNgSwitchCSS<CR>", silentopts)
-		vim.keymap.set("n", "<leader>vau", "<cmd> VNgSwitchSpec<CR>", silentopts)
-
-		vim.keymap.set("n", "<leader>hac", "<cmd> SNgSwitchTS<CR>", silentopts)
-		vim.keymap.set("n", "<leader>hat", "<cmd> SNgSwitchHTML<CR>", silentopts)
-		vim.keymap.set("n", "<leader>has", "<cmd> SNgSwitchCSS<CR>", silentopts)
-		vim.keymap.set("n", "<leader>hau", "<cmd> SNgSwitchSpec<CR>", silentopts)
-	end,
+		{ "<leader>hac", "<cmd>SNgSwitchTS<CR>", silent = true, desc = "Switch to component TS (split)" },
+		{ "<leader>hat", "<cmd>SNgSwitchHTML<CR>", silent = true, desc = "Switch to template HTML (split)" },
+		{ "<leader>has", "<cmd>SNgSwitchCSS<CR>", silent = true, desc = "Switch to stylesheet (split)" },
+		{ "<leader>hau", "<cmd>SNgSwitchSpec<CR>", silent = true, desc = "Switch to spec file (split)" },
+	},
 }

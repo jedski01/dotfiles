@@ -1,3 +1,0 @@
-return {
-  "mistweaverco/Screenshot.nvim"
-}

@@ -59,6 +59,67 @@ vim.keymap.set("n", "<leader>y", '"+y', opts("Yank to clipboard"))
 vim.keymap.set("v", "<leader>y", '"+y', opts("Yank to clipboard"))
 vim.keymap.set("n", "<leader>Y", '"+Y', opts("Yank line to clipboard"))
 
+-- Block comments (gb), complementing the built-in line comments (gc).
+-- Core commenting prefers the treesitter-resolved 'commentstring' (which
+-- ts-comments.nvim overrides via vim.filetype.get_option) over &commentstring,
+-- so we briefly force a block 'commentstring' through that resolver while
+-- toggling. toggle_lines() is fully synchronous, so the override is safe.
+local block_cs = {
+    c = "/* %s */",
+    cpp = "/* %s */",
+    css = "/* %s */",
+    scss = "/* %s */",
+    less = "/* %s */",
+    java = "/* %s */",
+    javascript = "/* %s */",
+    javascriptreact = "/* %s */",
+    typescript = "/* %s */",
+    typescriptreact = "/* %s */",
+    go = "/* %s */",
+    rust = "/* %s */",
+    php = "/* %s */",
+    lua = "--[[ %s ]]",
+    html = "<!-- %s -->",
+    vue = "<!-- %s -->",
+    markdown = "<!-- %s -->",
+    xml = "<!-- %s -->",
+}
+
+local function block_toggle(line_start, line_end)
+    local cs = block_cs[vim.bo.filetype]
+    if not cs then
+        vim.notify("No block comment style for filetype '" .. vim.bo.filetype .. "'", vim.log.levels.WARN)
+        return
+    end
+    local comment = require("vim._comment")
+    local orig = vim.filetype.get_option
+    vim.filetype.get_option = function(ft, option)
+        if option == "commentstring" then
+            return cs
+        end
+        return orig(ft, option)
+    end
+    local save = vim.bo.commentstring
+    vim.bo.commentstring = cs
+    pcall(comment.toggle_lines, line_start, line_end, vim.api.nvim_win_get_cursor(0))
+    vim.filetype.get_option = orig
+    vim.bo.commentstring = save
+end
+
+vim.keymap.set("n", "gbc", function()
+    local l = vim.fn.line(".")
+    block_toggle(l, l)
+end, opts("Block comment line"))
+
+vim.keymap.set("x", "gb", function()
+    local s, e = vim.fn.line("v"), vim.fn.line(".")
+    if s > e then
+        s, e = e, s
+    end
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "nx", false)
+    block_toggle(s, e)
+end, opts("Block comment selection"))
+
 -- NOPE
 vim.keymap.set("n", "Q", "<nop>", opts("Disable Ex mode"))
 
